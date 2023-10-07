@@ -3,6 +3,7 @@ import math
 import numpy as np
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+from play_ground_2 import zero_pad_gray
 
 
 def rotate_image(file_path, angle, b=-0.5):
@@ -36,18 +37,19 @@ def rotate_image(file_path, angle, b=-0.5):
                            [-1 * beta, alpha]])
 
     rotation_matrix = cv2.getRotationMatrix2D((width / 2, height / 2), angle, 1)
-    translation_matrix = np.array([[1,0,700/2 - image.shape[1]],
-                                   [0,1, 700/2 - image.shape[0]],
-                                   [0, 0, 1]])
-
-    translation_inverse_matrix = np.linalg.inv(translation_matrix)
 
 
+    # translation_inverse_matrix = np.linalg.inv(translation_matrix)
+    pad = math.ceil(np.sqrt(width**2 + height**2)/2* np.cos(np.pi/4 - angle_radians) - width/2)
 
+    padded_image = zero_pad_gray(image, pad,pad,pad,pad)
+    rotation_matrix = cv2.getRotationMatrix2D((padded_image.shape[1] / 2, padded_image.shape[0] / 2), angle, 1)
+    # plt.imshow(padded_image)
+    # plt.show()
     rotated_image_nearest = np.zeros((height, width), dtype=np.uint8)
     rotated_image_bilinear = np.zeros((height, width), dtype=np.uint8)
     rotated_image_bicubic = np.zeros((height, width), dtype=np.uint8)
-    rotated_image_cv_all_encompass = np.zeros((700,700), dtype=np.uint8)
+    rotated_image_cv_all_encompass = np.zeros((int(padded_image.shape[0]), int(padded_image.shape[1])), dtype=np.uint8)
     output_coordinates = np.empty((2, 1), dtype=np.uint16)
     output_coordinates_new = np.empty((3, 1), dtype=np.uint16)
 
@@ -98,36 +100,36 @@ def rotate_image(file_path, angle, b=-0.5):
             rotated_image_bicubic[y, x] = min(max(out, 0), 255)
 
 
-    # for y in tqdm(range(rotated_image_cv_all_encompass.shape[0])):
-    #     for x in range(rotated_image_cv_all_encompass.shape[1]):
-    #         """extract original coordinates and ignore coordinates out of bound"""
-    #         output_coordinates_new[0, 0] = int(x)
-    #         output_coordinates_new[1, 0] = int(y)
-    #         output_coordinates_new[2, 0] = 1
-    #
-    #         original_coordinates = np.matmul(translation_inverse_matrix, np.matmul(rotation_matrix, output_coordinates_new))
-    #         if (original_coordinates[0, 0] < 0) or (original_coordinates[0, 0] > image.shape[1]-1) or (original_coordinates[1, 0] < 0) or (original_coordinates[1, 0] > image.shape[0] - 1):
-    #             continue
-    #
-    #         xo = original_coordinates[0,0]
-    #         yo = original_coordinates[1,0]
-    #
-    #         y_final = math.floor(yo)
-    #         x_final = math.floor(xo)
-    #
-    #         w = yo - y_final
-    #         v = xo - x_final
-    #
-    #         out = 0
-    #         for n in range(-1, 3):
-    #             for m in range(-1, 3):
-    #                 if ((y_final + n < 0) or (y_final + n >= image.shape[0]) or (x_final + m < 0) or (
-    #                         x_final + m >= image.shape[1])):
-    #                     continue
-    #
-    #                 out += (image[y_final + n, x_final + m] * (u(w - n, b) * u(v - m, b)))
-    #
-    #         rotated_image_cv_all_encompass[y, x] = min(max(out, 0), 255)
+    for y in tqdm(range(rotated_image_cv_all_encompass.shape[0])):
+        for x in range(rotated_image_cv_all_encompass.shape[1]):
+            """extract original coordinates and ignore coordinates out of bound"""
+            output_coordinates_new[0, 0] = int(x)
+            output_coordinates_new[1, 0] = int(y)
+            output_coordinates_new[2, 0] = 1
+
+            original_coordinates = np.matmul(rotation_matrix, output_coordinates_new)
+            if (original_coordinates[0, 0] < 0) or (original_coordinates[0, 0] > padded_image.shape[1]-1) or (original_coordinates[1, 0] < 0) or (original_coordinates[1, 0] > padded_image.shape[0] - 1):
+                continue
+
+            xo = original_coordinates[0,0]
+            yo = original_coordinates[1,0]
+
+            y_final = math.floor(yo)
+            x_final = math.floor(xo)
+
+            w = yo - y_final
+            v = xo - x_final
+
+            out = 0
+            for n in range(-1, 3):
+                for m in range(-1, 3):
+                    if ((y_final + n < 0) or (y_final + n >= padded_image.shape[0]) or (x_final + m < 0) or (
+                            x_final + m >= padded_image.shape[1])):
+                        continue
+
+                    out += (padded_image[y_final + n, x_final + m] * (u(w - n, b) * u(v - m, b)))
+
+            rotated_image_cv_all_encompass[y, x] = min(max(out, 0), 255)
 
 
     plt.figure(figsize=(7,10))
@@ -147,10 +149,10 @@ def rotate_image(file_path, angle, b=-0.5):
     ax5 = plt.subplot(325, sharex=ax1, sharey = ax1)
     ax5.imshow(rotated_image_bicubic, cmap='gray', vmin=0, vmax=255)
     ax5.set_title(f'Manual Affine Matrix\nBi-cubic Interpolation\nθ = {angle}°', fontname='Times New Roman', fontweight="bold")
-    # ax6 = plt.subplot(326)
-    # ax6.imshow(rotated_image_cv_all_encompass, cmap='gray', vmin=0, vmax=255)
-    # ax6.set_title(f'Manual Affine Matrix Wide\nBi-cubic Interpolation\nθ = {angle}°', fontname='Times New Roman',
-    #               fontweight="bold")
+    ax6 = plt.subplot(326)
+    ax6.imshow(rotated_image_cv_all_encompass, cmap='gray', vmin=0, vmax=255)
+    ax6.set_title(f'Manual Affine Matrix Wide\nBi-cubic Interpolation\nθ = {angle}°', fontname='Times New Roman',
+                  fontweight="bold")
 
 
 
@@ -159,4 +161,4 @@ def rotate_image(file_path, angle, b=-0.5):
 
 if __name__ == '__main__':
     file_path = 'standard_test_images/cameraman.tif'
-    rotate_image(file_path, 18)
+    rotate_image(file_path, 19)
