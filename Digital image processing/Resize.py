@@ -117,4 +117,4 @@ def show_upscaled_images(file_path: str, factor, a = -0.5):
 if __name__ == '__main__':
     file_path = 'standard_test_images/cameraman.tif'
 
-    show_upscaled_images(file_path, 1.1, a= -0.5)
+    show_upscaled_images(file_path, 1.5, a= -0.5)

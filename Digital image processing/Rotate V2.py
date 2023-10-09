@@ -40,7 +40,7 @@ def rotate_image(file_path, angle, b=-0.5):
 
 
     # translation_inverse_matrix = np.linalg.inv(translation_matrix)
-    pad = math.ceil(np.sqrt(width**2 + height**2)/2* np.cos(np.pi/4 - angle_radians) - width/2)
+    pad = math.ceil(np.sqrt(width**2 + height**2)/2* np.cos(np.arctan(width/height) - angle_radians) - width/2)
 
     padded_image = zero_pad_gray(image, pad,pad,pad,pad)
     rotation_matrix = cv2.getRotationMatrix2D((padded_image.shape[1] / 2, padded_image.shape[0] / 2), angle, 1)
@@ -161,4 +161,5 @@ def rotate_image(file_path, angle, b=-0.5):
 
 if __name__ == '__main__':
     file_path = 'standard_test_images/cameraman.tif'
+
     rotate_image(file_path, 19)
