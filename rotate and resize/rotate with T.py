@@ -55,7 +55,7 @@ for y in tqdm(range(image.shape[0])):
         """extract original coordinates and ignore coordinates out of bound"""
         output_coordinates[0, 0] = int(x)
         output_coordinates[1, 0] = int(y)
-        original_coordinates = np.matmul(aff_matrix, output_coordinates)
+        original_coordinates = np.matmul(aff_matrix_inverse, output_coordinates)
         if (original_coordinates[0, 0] < 0) or (original_coordinates[0, 0] > image.shape[1]-1) or (original_coordinates[1, 0] < 0) or (original_coordinates[1, 0] > image.shape[0] - 1):
             continue
 
