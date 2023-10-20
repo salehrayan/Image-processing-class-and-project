@@ -38,7 +38,7 @@ sheared_image_final = cv2.warpPerspective(sheared_image, shear_horizontal_matrix
                                     (sheared_image.shape[1]+int(sheared_image.shape[0]*shear_horizontal_factor),
                                         sheared_image.shape[0]))
 
-"""solving 8 equations 8 unknowns"""
+"""Solving 8 equations 8 unknowns"""
 # points_in_sheared = np.array([[130,211], [152,327], [131, 371], [361, 432]], dtype=np.float32)
 # points_in_original = np.array([[106,117], [107,220], [75, 282], [325, 180]], dtype=np.float32)
 
@@ -62,10 +62,9 @@ for i in range(4):
 solutions_for_height = np.linalg.solve(A, B_for_height)
 solutions_for_width = np.linalg.solve(A, B_for_width)
 
-
+"""Restoring image from transform"""
 restored_image = np.zeros((shape,shape))
-
-for height_of_sheared in range(sheared_image_final.shape[0]):
+for height_of_sheared in tqdm(range(sheared_image_final.shape[0])):
     for width_of_sheared in range(sheared_image_final.shape[1]):
 
         height_of_restored = int(np.matmul(np.array([height_of_sheared, width_of_sheared,
@@ -79,8 +78,9 @@ for height_of_sheared in range(sheared_image_final.shape[0]):
         if restored_image[height_of_restored,width_of_restored] == 0:
             t = 4
 
+"""Enhancing restored image"""
 restored_image_mean = restored_image.copy()
-for h in range(restored_image_mean.shape[0]):
+for h in tqdm(range(restored_image_mean.shape[0])):
     for w in range(restored_image_mean.shape[1]):
         if restored_image_mean[h,w] == 0:
             restored_image_mean[h,w] = int((restored_image_mean[max(h-1,0), w] + restored_image_mean[min(h+1, shape-1), w] +
@@ -90,8 +90,8 @@ for h in range(restored_image_mean.shape[0]):
                                             restored_image_mean[min(h+1,shape-1), min(w+1, shape-1)]+
                                             restored_image_mean[min(h+1,shape-1), max(w-1, 0)]) / 8)
 
-difference = image_T - restored_image_mean
-difference[difference < 0] = 0
+difference = abs(image_T - restored_image_mean)
+
 
 fig = plt.figure(figsize=(7,9))
 ax1 = plt.subplot(321)
