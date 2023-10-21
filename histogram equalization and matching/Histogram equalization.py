@@ -22,7 +22,7 @@ def histogram_equalize(image_path):
     plt.imshow(image, cmap='gray', vmin=0, vmax=255)
     plt.title('Original image', fontname='Times New Roman', fontweight="bold")
 
-    plt.subplot(2, 2, 2)
+    plt.subplot(2, 2, 2, sharex=plt.gca(), sharey=plt.gca())
     plt.imshow(image_equalized, cmap='gray', vmin=0, vmax=255)
     plt.title('Equalized image', fontname='Times New Roman', fontweight="bold")
 
@@ -30,7 +30,7 @@ def histogram_equalize(image_path):
     plt.hist(image.reshape(-1), bins=256)
     plt.title('Histogram of the original image', fontname='Times New Roman', fontweight="bold")
 
-    plt.subplot(2, 2, 4)
+    plt.subplot(2, 2, 4, sharex=plt.gca(), sharey=plt.gca())
     plt.hist(image_equalized.reshape(-1), bins=256)
     plt.title('Histogram of the equalized image', fontname='Times New Roman', fontweight="bold")
     plt.tight_layout()
@@ -42,6 +42,6 @@ def histogram_equalize(image_path):
 
 
 if __name__ == "__main__":
-    file_path = r'C:\Users\ASUS\Desktop\Image processing\rotate and resize\standard_test_images\jetplane.tif'
+    file_path = r'C:\Users\ASUS\Desktop\Image processing\rotate and resize\standard_test_images\livingroom.tif'
     # file_path = r'Untitled.png'
     histogram_equalize(file_path)

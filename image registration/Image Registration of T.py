@@ -93,20 +93,25 @@ for h in tqdm(range(restored_image_mean.shape[0])):
 difference = abs(image_T - restored_image_mean)
 
 
-fig = plt.figure(figsize=(7,9))
+fig = plt.figure(figsize=(8,9))
 ax1 = plt.subplot(321)
 ax1.imshow(image_T, cmap='gray', vmin=0, vmax=255)
 ax1.set_title('Original Image', fontname='Times New Roman', fontweight="bold")
+
 ax2 = plt.subplot(322)
 ax2.imshow(sheared_image_final, cmap='gray', vmin=0, vmax=255)
 ax2.set_title(f'Sheared Image', fontname='Times New Roman', fontweight="bold")
+for point in points_in_sheared:
+    ax2.scatter(point[1], point[0], s=20, c='red', marker='o')
+
 ax3 = plt.subplot(323)
 ax3.imshow(restored_image, cmap='gray', vmin=0, vmax=255)
 ax3.set_title(f'Restored Image', fontname='Times New Roman', fontweight="bold")
+
 ax4 = plt.subplot(324)
 ax4.imshow(restored_image_mean, cmap='gray', vmin=0, vmax=255)
 ax4.set_title(f'Restored Image With Mean Of Neighbours', fontname='Times New Roman', fontweight="bold")
-#
+
 ax5 = plt.subplot(325)
 ax5.imshow(difference, cmap='gray', vmin=0, vmax=255)
 ax5.set_title(f'Difference', fontname='Times New Roman', fontweight="bold")
