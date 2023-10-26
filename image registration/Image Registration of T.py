@@ -24,6 +24,9 @@ t_h_w = math.floor(t_c_h / 1.5)
 image_T[middle - t_c_h: middle+t_c_h, middle-t_c_w: middle+t_c_w] = 255
 image_T[middle - t_c_h: middle - t_c_h + t_h_h, middle-t_h_w: middle+t_h_w] = 255
 
+
+
+"""shear transform"""
 shear_vertical_matrix = np.float32([[1, 0, 0],  # 0.5 is the shearing factor
                            [shear_vertical_factor, 1, 0],
                            [0,0,1]])
@@ -31,7 +34,6 @@ shear_horizontal_matrix = np.float32([[1, shear_horizontal_factor, 0],  # 0.5 is
                            [0, 1, 0],
                            [0,0,1]])
 
-"""shear transform"""
 sheared_image = cv2.warpPerspective(image_T, shear_vertical_matrix, (image_T.shape[1],
                                     image_T.shape[0]+int(image_T.shape[0]*shear_vertical_factor)))
 sheared_image_final = cv2.warpPerspective(sheared_image, shear_horizontal_matrix,
@@ -93,7 +95,7 @@ for h in tqdm(range(restored_image_mean.shape[0])):
 difference = abs(image_T - restored_image_mean)
 
 
-fig = plt.figure(figsize=(8,9))
+fig = plt.figure(figsize=(9,10))
 ax1 = plt.subplot(321)
 ax1.imshow(image_T, cmap='gray', vmin=0, vmax=255)
 ax1.set_title('Original Image', fontname='Times New Roman', fontweight="bold")

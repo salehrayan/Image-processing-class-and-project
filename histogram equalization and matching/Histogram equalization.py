@@ -42,6 +42,6 @@ def histogram_equalize(image_path):
 
 
 if __name__ == "__main__":
-    file_path = r'C:\Users\ASUS\Desktop\Image processing\rotate and resize\standard_test_images\livingroom.tif'
+    file_path = r'C:\Users\ASUS\Desktop\Image processing\rotate and resize\standard_test_images\cameraman.tif'
     # file_path = r'Untitled.png'
     histogram_equalize(file_path)
