@@ -97,7 +97,7 @@ def image_registeration(file_path):
     ax3.imshow(restored_image, cmap='gray', vmin=0, vmax=255)
     ax3.set_title(f'Restored Image', fontname='Times New Roman', fontweight="bold")
 
-    ax4 = plt.subplot(324)
+    ax4 = plt.subplot(3,2,4)
     ax4.imshow(restored_image_mean, cmap='gray', vmin=0, vmax=255)
     ax4.set_title(f'Restored Image With Mean Of Neighbours', fontname='Times New Roman', fontweight="bold")
 
