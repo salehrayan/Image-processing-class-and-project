@@ -6,7 +6,8 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 
-image = cv2.imread(r'textures/1.2.12.tiff', cv2.IMREAD_GRAYSCALE)
+image = cv2.imread(r'textures/1.3.12.tiff', cv2.IMREAD_GRAYSCALE)
+
 kernel_horizontal = np.array([[0, 0, 0],
                    [2, -4, 2],
                    [0, 0, 0]]) / 8
@@ -18,7 +19,7 @@ kernel_vertical = np.array([[0, 2, 0],
 kernel_diagonal = np.array([[1, 0, 1],
                    [0, -4, 0],
                    [1, 0, 1]]) / 8
-kernel_laplacian =  np.array([[1, 1, 1],
+kernel_laplacian = np.array([[1, 1, 1],
                    [1, -8, 1],
                    [1, 1, 1]]) / 16
 kernel_average = np.array([[1, 1],
@@ -39,23 +40,23 @@ ax1 = plt.subplot(3, 2, 1)
 plt.imshow(image, cmap='gray')
 plt.title(f'Image', fontname='Times New Roman', fontweight="bold")
 
-ax2 = plt.subplot(3, 2, 2)
+ax2 = plt.subplot(3, 2, 2, sharex=ax1, sharey=ax1)
 plt.imshow(output_kernel_horizontal, cmap='gray')
 plt.title(f'Output of horizontal kernel', fontname='Times New Roman', fontweight="bold")
 
-ax3 = plt.subplot(3, 2, 3)
+ax3 = plt.subplot(3, 2, 3, sharex=ax1, sharey=ax1)
 plt.imshow(output_kernel_vertical, cmap='gray')
 plt.title(f'Output of vertical kernel', fontname='Times New Roman', fontweight="bold")
 
-ax4 = plt.subplot(3, 2, 4)
+ax4 = plt.subplot(3, 2, 4, sharex=ax1, sharey=ax1)
 plt.imshow(output_kernel_laplacian, cmap='gray')
 plt.title(f'Output of Laplacian kernel', fontname='Times New Roman', fontweight="bold")
 
-ax5 = plt.subplot(3, 2, 5)
+ax5 = plt.subplot(3, 2, 5, sharex=ax1, sharey=ax1)
 plt.imshow(difference, cmap='gray')
 plt.title(f'Laplacian minus vertical', fontname='Times New Roman', fontweight="bold")
 
-ax6 = plt.subplot(3, 2, 6)
+ax6 = plt.subplot(3, 2, 6, sharex=ax1, sharey=ax1)
 plt.imshow(difference_averaged, cmap='gray')
 
 
