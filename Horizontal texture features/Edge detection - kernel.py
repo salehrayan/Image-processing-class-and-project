@@ -115,5 +115,5 @@ def horizontal_textures(file_path, intensity_factor):
 
 
 if __name__ == '__main__':
-    file_path = r'textures\1.1.12.tiff'
-    horizontal_textures(file_path, 2)
+    file_path = r'textures\1.2.12.tiff'
+    horizontal_textures(file_path, intensity_factor=2)

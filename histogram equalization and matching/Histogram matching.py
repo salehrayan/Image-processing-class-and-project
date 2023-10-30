@@ -9,6 +9,7 @@ def histogram_match(reference_image_path, target_image_path):
     image_reference = cv2.imread(reference_image_path, cv2.IMREAD_GRAYSCALE)
     image_target = cv2.imread(target_image_path, cv2.IMREAD_GRAYSCALE)
     image_matched = image_target.copy()
+
     height_ref, width_ref = image_reference.shape
     height_target, width_target = image_target.shape
     final_transfer_function = np.array([])
@@ -22,7 +23,7 @@ def histogram_match(reference_image_path, target_image_path):
     target_trans_function = np.floor(coefficient_target * np.cumsum(values_target))
 
     for pixel_value in range(256):
-        if np.argwhere(ref_trans_function == target_trans_function[pixel_value]).shape != (0,1):
+        if np.argwhere(ref_trans_function == target_trans_function[pixel_value]).shape != (0, 1):
 
             output_value = np.argwhere(ref_trans_function == target_trans_function[pixel_value])[
                 int(len(np.argwhere(ref_trans_function == target_trans_function[pixel_value]))/2)]
@@ -37,6 +38,7 @@ def histogram_match(reference_image_path, target_image_path):
             image_matched[image_target == pixel_value] = output_value
             final_transfer_function = np.append(final_transfer_function, output_value)
 
+    '''plot'''
     plt.figure(figsize=(15, 9))
     plt.subplot(2, 3, 1)
     plt.imshow(image_reference, cmap='gray', vmin=0, vmax=255)

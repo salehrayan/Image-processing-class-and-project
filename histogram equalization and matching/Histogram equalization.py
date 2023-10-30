@@ -17,6 +17,8 @@ def histogram_equalize(image_path):
     for pixel_value in range(256):
         image_equalized[image == pixel_value] = max(int(coefficient * np.sum(values[0:pixel_value+1])), 0)
 
+
+    '''plot'''
     plt.figure(figsize=(13, 9))
     plt.subplot(2, 2, 1)
     plt.imshow(image, cmap='gray', vmin=0, vmax=255)
@@ -42,6 +44,6 @@ def histogram_equalize(image_path):
 
 
 if __name__ == "__main__":
-    file_path = r'C:\Users\ASUS\Desktop\Image processing\rotate and resize\standard_test_images\cameraman.tif'
+    file_path = r'C:\Users\ASUS\Desktop\Image processing\rotate and resize\standard_test_images\jetplane.tif'
     # file_path = r'Untitled.png'
     histogram_equalize(file_path)
