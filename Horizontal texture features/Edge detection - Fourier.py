@@ -6,28 +6,25 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 
-def horizontal_textures(file_path, intensity_factor, h_lower_lim, h_higher_lim, v_lower_lim, v_higher_lim):
+def horizontal_textures(file_path, intensity_factor, image_selection = 0):
 
     image = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
     height, width = image.shape
     fourier = np.fft.fft2(image)
-    fourier_shifted = np.log(np.abs(np.fft.fftshift(fourier))) ** intensity_factor
+    fourier_shifted = np.log(np.abs(np.fft.fftshift(fourier))+1) ** intensity_factor
     fourier_filtered = np.zeros(fourier.shape, dtype=np.complex128)
+    fourier_filtered2 = np.zeros(fourier.shape, dtype=np.complex128)
 
-    # fourier_filtered[int(v_lower_lim*height/2):int(v_higher_lim*height/2),
-    # int(h_lower_lim*width/2):int(h_higher_lim*width/2)] = 4 * fourier[int(v_lower_lim*height/2):int(v_higher_lim*height/2),
-    # int(h_lower_lim*width/2):int(h_higher_lim*width/2)]
-    fourier_filtered[813 :1024, 0: 20] = 4 *fourier[813 :1024, 0: 20]
-    # fourier_filtered[-horizontal_edge_factor:, width//16:width//2] = fourier[-horizontal_edge_factor:, width//16:width//2]
+    fourier_filtered[0:12, 10: 90] = 4 * fourier[0:12, 10: 90]
+    fourier_filtered[4:512, 0: 10] = 4 * fourier[4:512, 0: 10]
+    fourier_filtered[505:512, 20: 120] = 4 * fourier[505:512, 20: 120]
+    # fourier_filtered[3:25, 3: 25] = 4 * fourier[3:25, 3: 25]
+    fourier_filtered2[252:260, 259:450] = 2 * np.fft.fftshift(fourier)[252:260, 259:450]
+    # fourier_filtered2[258:330, 256] = 2 * np.fft.fftshift(fourier)[258:330, 256]
 
-    # if vertical_edge_factor != 0:
-    #     fourier_filtered[:, 0:vertical_edge_factor] = fourier[:, 0:vertical_edge_factor]
-    #     fourier_filtered[:, -vertical_edge_factor:] = fourier[:, -vertical_edge_factor:]
 
-    # fourier_filtered[0,0] = 0
-
-    temp2 = fourier_filtered.copy()
     fourier_filtered_inverse = np.abs(np.fft.ifft2(fourier_filtered))
+    fourier_filtered_inverse2 = np.abs(np.fft.ifft2(np.fft.ifftshift(fourier_filtered2)))
 
     plt.figure(figsize=(8, 9))
 
@@ -36,7 +33,7 @@ def horizontal_textures(file_path, intensity_factor, h_lower_lim, h_higher_lim, 
     plt.title(f'Image', fontname='Times New Roman', fontweight="bold")
     #
     ax2 = plt.subplot(2, 2, 2, sharex=ax1, sharey=ax1)
-    plt.imshow(np.log(np.abs(fourier)) ** intensity_factor, cmap='gray', vmax=255, vmin=0)
+    plt.imshow(np.log(np.abs(fourier)+1) ** intensity_factor, cmap='gray', vmax=255, vmin=0)
     plt.title(f'FFT of the image', fontname='Times New Roman', fontweight="bold")
     #
     ax3 = plt.subplot(2, 2, 3, sharex=ax1, sharey=ax1)
@@ -44,13 +41,13 @@ def horizontal_textures(file_path, intensity_factor, h_lower_lim, h_higher_lim, 
     plt.title(f'Shifted FFT', fontname='Times New Roman', fontweight="bold")
     #
     ax4 = plt.subplot(2, 2, 4, sharex=ax1, sharey=ax1)
-    plt.imshow(fourier_filtered_inverse, cmap='gray', vmax=255, vmin=0)
+    plt.imshow(fourier_filtered_inverse2, cmap='gray', vmax=255, vmin=0)
     plt.title(f'Inverse FFT of filtered fourier domain',
               fontname='Times New Roman', fontweight="bold")
     plt.tight_layout()
 
     plt.figure(figsize=(6,7))
-    plt.imshow(np.log(np.abs(temp2)+0.01) ** intensity_factor,  cmap='gray', vmax=255, vmin=0)
+    plt.imshow(np.log(np.abs(fourier_filtered2)+1) ** intensity_factor,  cmap='gray', vmax=255, vmin=0)
     plt.title('Filtered FFT')
 
     plt.tight_layout()
@@ -60,6 +57,5 @@ def horizontal_textures(file_path, intensity_factor, h_lower_lim, h_higher_lim, 
 
 
 if __name__ == '__main__':
-    file_path = r'textures\1.4.03.tiff'
-    horizontal_textures(file_path, intensity_factor=2, h_lower_lim=0.025, h_higher_lim=0.6, v_lower_lim=0,
-                        v_higher_lim=0.1)
+    file_path = r'textures\1.2.12.tiff'
+    horizontal_textures(file_path, intensity_factor=2)
