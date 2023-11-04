@@ -63,6 +63,29 @@ title('Diagonal Detail Coef. of Level 2')
 fig2.Position = [473, 244, 860, 720];
 
 
+fig3 = figure;
+
+subplot(2,2,1)
+imagesc(A3);
+title('Approximation Coef. of level 3')
+colormap gray
+
+subplot(2,2,2)
+imagesc(H3)
+title('Horizontal Detail Coef. of Level 3')
+
+
+subplot(2,2,3)
+imagesc(V3)
+title('Vertical Detail Coef. of Level 3')
+
+
+subplot(2,2,4)
+imagesc(D3)
+title('Diagonal Detail Coef. of Level 3')
+
+fig3.Position = [573, 244, 860, 720];
+
 
 v1 = wrcoef2("v",c,s,"haar",1);
 v2 = wrcoef2("v",c,s,"haar",2);
@@ -70,10 +93,19 @@ v3 = wrcoef2("v",c,s,"haar",3);
 h1 = wrcoef2("h",c,s,"haar",1);
 h2 = wrcoef2("h",c,s,"haar",2);
 h3 = wrcoef2("h",c,s,"haar",3);
+d1 = wrcoef2("d",c,s,"haar",1);
+d2 = wrcoef2("d",c,s,"haar",2);
+d3 = wrcoef2("d",c,s,"haar",3);
+a1 = wrcoef2("a",c,s,"haar",1);
+a2 = wrcoef2("a",c,s,"haar",2);
+a3 = wrcoef2("a",c,s,"haar",3);
 
-im = v1+v2+v3;
+% im = v1+v2+v3+h1+h2+h3+d1+d2+d3;
+im = V1+H1+D1;
 
-fig3 = figure;
+% im = v1+v2+v3;
+
+fig4 = figure;
 subplot(2,1,1)
 imagesc(I);
 colormap gray
@@ -84,4 +116,6 @@ imagesc(im);
 colormap gray
 title('Vertical reconstruction')
 
-fig3.Position = [573, 44, 560, 880];
+fig4.Position = [573, 44, 560, 880];
+
+
