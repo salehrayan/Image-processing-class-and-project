@@ -2,6 +2,7 @@ import cv2
 import math
 import numpy as np
 from scipy import signal
+import scipy
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
@@ -9,6 +10,7 @@ import matplotlib.pyplot as plt
 def vertical_textures(file_path, intensity_factor):
 
     image = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
+    image = image + (20* np.random.randn(image.shape[0], image.shape[1])+ 20)
 
     kernel_vertical = np.array([[0, 0, 0],
                        [2, -4, 2],
