@@ -27,8 +27,10 @@ def vertical_textures(file_path, intensity_factor):
     kernel_average = np.array([[1, 1, 1],
                                [1, 1, 1],
                                [1, 1, 1]]) / 9
-    # kernel_average_2_by_2 = np.array([[1, 1],
-    #                                   [1, 1]]) / 4
+    # kernel = np.array([[1,1]])
+    # im = np.array([[1,2,3],[4,5,6]])
+    # print(signal.correlate2d(im, kernel, boundary='wrap'))
+
 
 
     output_kernel_vertical = signal.correlate2d(image, kernel_vertical, boundary='symm') + 100
