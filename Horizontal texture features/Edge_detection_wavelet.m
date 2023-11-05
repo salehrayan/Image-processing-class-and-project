@@ -114,7 +114,7 @@ title('Original image');
 subplot(2,1,2)
 imagesc(im);
 colormap gray
-title('Vertical reconstruction')
+title('Reconstruction')
 
 fig4.Position = [573, 44, 560, 880];
 

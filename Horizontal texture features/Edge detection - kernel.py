@@ -31,15 +31,15 @@ def vertical_textures(file_path, intensity_factor):
     #                                   [1, 1]]) / 4
 
 
-    output_kernel_vertical = signal.correlate2d(image, kernel_vertical) + 100
-    output_kernel_vertical_averaged = signal.correlate2d(output_kernel_vertical, kernel_average)
-    output_kernel_diagonal = signal.correlate2d(image, kernel_diagonal) + 100
-    output_kernel_horizontal = signal.correlate2d(image, kernel_horizontal) + 100
-    output_kernel_laplacian = signal.correlate2d(image, kernel_laplacian) + 100
+    output_kernel_vertical = signal.correlate2d(image, kernel_vertical, boundary='symm') + 100
+    output_kernel_vertical_averaged = signal.correlate2d(output_kernel_vertical, kernel_average, boundary='symm')
+    output_kernel_diagonal = signal.correlate2d(image, kernel_diagonal, boundary='symm') + 100
+    output_kernel_horizontal = signal.correlate2d(image, kernel_horizontal, boundary='symm') + 100
+    output_kernel_laplacian = signal.correlate2d(image, kernel_laplacian, boundary='symm') + 100
 
     difference = output_kernel_laplacian - output_kernel_horizontal + 100
 
-    difference_averaged = signal.correlate2d(difference, kernel_average)
+    difference_averaged = signal.correlate2d(difference, kernel_average, boundary='symm')
 
 
     fig1 = plt.figure(figsize=(9, 10))
@@ -77,14 +77,14 @@ def vertical_textures(file_path, intensity_factor):
     image = signal.correlate2d(image, kernel_average)
 
 
-    output_kernel_vertical = signal.correlate2d(image, kernel_vertical) + 100
-    output_kernel_diagonal = signal.correlate2d(image, kernel_diagonal) + 100
-    output_kernel_horizontal = signal.correlate2d(image, kernel_horizontal) + 100
-    output_kernel_laplacian = signal.correlate2d(image, kernel_laplacian) + 100
+    output_kernel_vertical = signal.correlate2d(image, kernel_vertical, boundary='symm') + 100
+    output_kernel_diagonal = signal.correlate2d(image, kernel_diagonal, boundary='symm') + 100
+    output_kernel_horizontal = signal.correlate2d(image, kernel_horizontal, boundary='symm') + 100
+    output_kernel_laplacian = signal.correlate2d(image, kernel_laplacian, boundary='symm') + 100
 
     difference = output_kernel_laplacian - output_kernel_horizontal + 100
 
-    difference_averaged = signal.correlate2d(difference, kernel_average)
+    difference_averaged = signal.correlate2d(difference, kernel_average, boundary='symm')
 
     fig2 = plt.figure(figsize=(9, 10))
     fig2.suptitle('Blurred Image', fontname='Times New Roman', fontweight="bold")
