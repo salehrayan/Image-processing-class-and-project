@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 def vertical_textures(file_path, intensity_factor):
 
     image = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE)
-    image = image + (20* np.random.randn(image.shape[0], image.shape[1])+ 20)
+    image_original = image.copy()
+    image = image + (100* np.random.randn(image.shape[0], image.shape[1]))
 
     kernel_vertical = np.array([[0, 0, 0],
                        [2, -4, 2],
@@ -29,19 +30,21 @@ def vertical_textures(file_path, intensity_factor):
     kernel_average = np.array([[1, 1, 1],
                                [1, 1, 1],
                                [1, 1, 1]]) / 9
-    # kernel = np.array([[1,1]])
-    # im = np.array([[1,2,3],[4,5,6]])
-    # print(signal.correlate2d(im, kernel, boundary='wrap'))
+    kernel = np.array([[1, 1],
+                       [1, 1]])
+    im = np.array([[1, 2, 3],
+                   [4, 5, 6]])
+    print(signal.correlate2d(im, kernel, boundary='symm'))
 
 
 
-    output_kernel_vertical = signal.correlate2d(image, kernel_vertical, boundary='symm') + 100
+    output_kernel_vertical = signal.correlate2d(image, kernel_vertical, boundary='symm')
     output_kernel_vertical_averaged = signal.correlate2d(output_kernel_vertical, kernel_average, boundary='symm')
-    output_kernel_diagonal = signal.correlate2d(image, kernel_diagonal, boundary='symm') + 100
-    output_kernel_horizontal = signal.correlate2d(image, kernel_horizontal, boundary='symm') + 100
-    output_kernel_laplacian = signal.correlate2d(image, kernel_laplacian, boundary='symm') + 100
+    output_kernel_diagonal = signal.correlate2d(image, kernel_diagonal, boundary='symm')
+    output_kernel_horizontal = signal.correlate2d(image, kernel_horizontal, boundary='symm')
+    output_kernel_laplacian = signal.correlate2d(image, kernel_laplacian, boundary='symm')
 
-    difference = output_kernel_laplacian - output_kernel_horizontal + 100
+    difference = output_kernel_laplacian - output_kernel_horizontal
 
     difference_averaged = signal.correlate2d(difference, kernel_average, boundary='symm')
 
@@ -81,12 +84,12 @@ def vertical_textures(file_path, intensity_factor):
     image = signal.correlate2d(image, kernel_average)
 
 
-    output_kernel_vertical = signal.correlate2d(image, kernel_vertical, boundary='symm') + 100
-    output_kernel_diagonal = signal.correlate2d(image, kernel_diagonal, boundary='symm') + 100
-    output_kernel_horizontal = signal.correlate2d(image, kernel_horizontal, boundary='symm') + 100
-    output_kernel_laplacian = signal.correlate2d(image, kernel_laplacian, boundary='symm') + 100
+    output_kernel_vertical = signal.correlate2d(image, kernel_vertical, boundary='symm')
+    output_kernel_diagonal = signal.correlate2d(image, kernel_diagonal, boundary='symm')
+    output_kernel_horizontal = signal.correlate2d(image, kernel_horizontal, boundary='symm')
+    output_kernel_laplacian = signal.correlate2d(image, kernel_laplacian, boundary='symm')
 
-    difference = output_kernel_laplacian - output_kernel_horizontal + 100
+    difference = output_kernel_laplacian - output_kernel_horizontal
 
     difference_averaged = signal.correlate2d(difference, kernel_average, boundary='symm')
 
