@@ -33,11 +33,11 @@ def horizontal_textures(file_path, intensity_factor, image_selection = 0):
     plt.title(f'Image', fontname='Times New Roman', fontweight="bold")
     #
     ax2 = plt.subplot(2, 2, 2, sharex=ax1, sharey=ax1)
-    plt.imshow(np.log(np.abs(fourier)+1) ** intensity_factor, cmap='gray', vmax=255, vmin=0)
+    plt.imshow(np.log(np.abs(fourier)+1) ** intensity_factor, cmap='gray')
     plt.title(f'FFT of the image', fontname='Times New Roman', fontweight="bold")
     #
     ax3 = plt.subplot(2, 2, 3, sharex=ax1, sharey=ax1)
-    plt.imshow(fourier_shifted, cmap='gray', vmax=255, vmin=0)
+    plt.imshow(fourier_shifted, cmap='gray')
     plt.title(f'Shifted FFT', fontname='Times New Roman', fontweight="bold")
     #
     ax4 = plt.subplot(2, 2, 4, sharex=ax1, sharey=ax1)
@@ -58,4 +58,4 @@ def horizontal_textures(file_path, intensity_factor, image_selection = 0):
 
 if __name__ == '__main__':
     file_path = r'textures\1.2.12.tiff'
-    horizontal_textures(file_path, intensity_factor=2)
+    horizontal_textures(file_path, intensity_factor=1)

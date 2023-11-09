@@ -19,7 +19,7 @@ astro_noisy = astro.copy() +  40* np.random.randn(astro.shape[0], astro.shape[1]
 
 astro_noisy = (astro_noisy-np.min(astro_noisy))/(np.max(astro_noisy)-np.min(astro_noisy))
 # Restore Image using Richardson-Lucy algorithm
-deconvolved_RL = restoration.wiener(astro_noisy, psf, balance= 0.3)
+deconvolved_RL = restoration.wiener(astro_noisy, psf, balance= 20)
 
 fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(8, 5))
 plt.gray()

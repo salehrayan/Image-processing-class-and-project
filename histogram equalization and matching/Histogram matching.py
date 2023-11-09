@@ -75,6 +75,41 @@ def histogram_match(reference_image_path, target_image_path):
     plt.show()
 
 
+def histogram_match_fn(reference_image_path, target_image_path):
+    image_reference = cv2.imread(reference_image_path, cv2.IMREAD_GRAYSCALE)
+    image_target = cv2.imread(target_image_path, cv2.IMREAD_GRAYSCALE)
+    image_matched = image_target.copy()
+
+    height_ref, width_ref = image_reference.shape
+    height_target, width_target = image_target.shape
+    final_transfer_function = np.array([])
+
+    coefficient_ref = 255/(height_ref * width_ref)
+    coefficient_target = 255/(height_target * width_target)
+
+    values_ref, _ = np.histogram(image_reference, bins=256)
+    values_target, _ = np.histogram(image_target, bins=256)
+    ref_trans_function = np.floor(coefficient_ref * np.cumsum(values_ref))
+    target_trans_function = np.floor(coefficient_target * np.cumsum(values_target))
+
+    for pixel_value in range(256):
+        if np.argwhere(ref_trans_function == target_trans_function[pixel_value]).shape != (0, 1):
+
+            output_value = np.argwhere(ref_trans_function == target_trans_function[pixel_value])[
+                int(len(np.argwhere(ref_trans_function == target_trans_function[pixel_value]))/2)]
+
+            image_matched[image_target == pixel_value] = output_value
+            final_transfer_function = np.append(final_transfer_function, output_value)
+
+        else:
+            output_value = np.abs(ref_trans_function - target_trans_function[pixel_value]).argmin(keepdims=True)[
+                int(len(np.abs(ref_trans_function - target_trans_function[pixel_value]).argmin(keepdims=True)) / 2)]
+
+            image_matched[image_target == pixel_value] = output_value
+            final_transfer_function = np.append(final_transfer_function, output_value)
+
+    return image_matched
+
 if __name__ == "__main__":
     reference_path = r'C:\Users\ASUS\Desktop\Image processing\rotate and resize\standard_test_images\jetplane.tif'
     target_path = r'C:\Users\ASUS\Desktop\Image processing\rotate and resize\standard_test_images\cameraman.tif'
