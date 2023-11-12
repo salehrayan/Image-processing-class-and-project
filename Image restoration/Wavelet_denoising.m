@@ -1,6 +1,6 @@
 clc;clear;close all;
 
-I = imread('C:\Users\ASUS\Desktop\Image processing\Horizontal texture features\textures\1.4.03.tiff');
+I = imread('C:\Users\ASUS\Desktop\Image processing\Horizontal texture features\textures\1.4.02.tiff');
 std = 40;
 shape = size(I);
 
@@ -10,16 +10,16 @@ blur_kernel = [1 1 1 1
 Image = conv2(I, blur_kernel, "same");
 Image = Image + std.*randn([shape(1) shape(2)]);
 
-[c, s] = wavedec2(Image,6, 'db5');
+[c, s] = wavedec2(Image,6, 'db3');
 
 [H1 , V1, D1] = detcoef2('all', c, s, 1);
-A1 = appcoef2(c,s, 'db5', 1);
+A1 = appcoef2(c,s, 'db3', 1);
 
 [H2 , V2, D2] = detcoef2('all', c, s, 2);
-A2 = appcoef2(c,s, 'db5', 2);
+A2 = appcoef2(c,s, 'db3', 2);
 
 [H3 , V3, D3] = detcoef2('all', c, s, 3);
-A3 = appcoef2(c,s, 'db5', 3);
+A3 = appcoef2(c,s, 'db3', 3);
 
 
 fig1 = figure;
@@ -93,12 +93,12 @@ title('Diagonal Detail Coef. of Level 3')
 
 fig3.Position = [573, 244, 860, 720];
 
-had = std.^2 .*sqrt(2.*log2(shape(1).*shape(2)))/115;
+had = std.^2 .*sqrt(2.*log2(shape(1).*shape(2)))/110;
 c_temp = c(1, (s(1,1)*s(1,2))+1:end);
 c_temp(abs(c_temp)<had) = 0;
 c(1, (s(1,1)*s(1,2))+1:end) = c_temp;
 
-x = waverec2(c, s, 'db5');
+x = waverec2(c, s, 'db3');
 
 fig4 = figure;
 colormap gray

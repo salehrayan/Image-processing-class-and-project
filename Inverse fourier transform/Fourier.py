@@ -63,11 +63,11 @@ def inverse_fourier(file1_path, file2_path, intensity_factor, T=None):
     plt.title(f'Image 2 phase spectrum', fontname='Times New Roman', fontweight="bold")
 
     plt.subplot(3, 4, 7)
-    plt.imshow(minmax(np.abs(np.fft.ifft2(np.abs(image1_fft).astype(complex)))) ** 1.5, cmap="gray", vmin=0, vmax=255)
+    plt.imshow(np.real(np.fft.ifft2(np.abs(image1_fft).astype(complex))), cmap="gray", vmin=0, vmax=255)
     plt.title(f'Image 1 rec. from spectrum', fontname='Times New Roman', fontweight="bold")
 
     plt.subplot(3, 4, 8)
-    plt.imshow(minmax(np.abs(np.fft.ifft2(np.abs(image2_fft).astype(complex)))) ** 1.5, cmap="gray", vmin=0, vmax=255)
+    plt.imshow(np.real(np.fft.ifft2(np.abs(image2_fft).astype(complex))), cmap="gray", vmin=0, vmax=255)
     plt.title(f'Image 2 rec. from spectrum', fontname='Times New Roman', fontweight="bold")
 
     plt.subplot(3, 4, 9)
@@ -79,11 +79,11 @@ def inverse_fourier(file1_path, file2_path, intensity_factor, T=None):
     plt.title(f'Image 2 rec. from phase.', fontname='Times New Roman', fontweight="bold")
 
     plt.subplot(3, 4, 11)
-    plt.imshow(minmax(np.abs(np.fft.ifft2(im1phase_im2spec))), cmap="gray", vmin=0, vmax=255)
+    plt.imshow(minmax(np.real(np.fft.ifft2(im1phase_im2spec))), cmap="gray", vmin=0, vmax=255)
     plt.title(f'Rec. with Image 1 phase\nand Image 2 mag. spectrum', fontname='Times New Roman', fontweight="bold")
 
     plt.subplot(3, 4, 12)
-    plt.imshow(minmax(np.abs(np.fft.ifft2(im2phase_im1spec))), cmap="gray", vmin=0, vmax=255)
+    plt.imshow(minmax(np.real(np.fft.ifft2(im2phase_im1spec))), cmap="gray", vmin=0, vmax=255)
     plt.title(f'Rec. with Image 2 phase\nand Image 1 mag. spectrum', fontname='Times New Roman', fontweight="bold")
 
     plt.tight_layout()
