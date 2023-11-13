@@ -138,6 +138,6 @@ def noise_remove(file_path, intensity_factor, std, blurring_kernel_dim, MF_dim ,
 
 
 if __name__ == '__main__':
-    file_path = r'C:\Users\ASUS\Desktop\Image processing\Horizontal texture features\textures\1.4.02.tiff'
+    file_path = r'C:\Users\ASUS\Desktop\Image processing\Horizontal texture features\textures\1.4.08.tiff'
     noise_remove(file_path, intensity_factor=1, std=40, blurring_kernel_dim=4,
                  MF_dim=4, Mean_F_dim=4)
