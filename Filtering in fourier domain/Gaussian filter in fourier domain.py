@@ -22,8 +22,8 @@ def minmax(array, Max):
 def filtering_in_fourier(file1_path, standard_deviation):
     image = cv2.imread(file1_path, cv2.IMREAD_GRAYSCALE)
     height, width = image.shape
-    x_temp = np.arange(-height + 1, height + 1)
-    y_temp = np.arange(-width + 1, width + 1)
+    x_temp = np.linspace(-height/2, height/2, height*2)
+    y_temp = np.linspace(-width/2, width/2, width*2)
     Y, X = np.meshgrid(y_temp, x_temp)
     filter_gaussian = (minmax(np.exp(-(X ** 2 + Y ** 2) / (2 * standard_deviation ** 2)) / (2 * np.pi *
                                                                                             standard_deviation ** 2),
@@ -75,4 +75,4 @@ def filtering_in_fourier(file1_path, standard_deviation):
 if __name__ == "__main__":
     file1 = r'C:\Users\ASUS\Desktop\Image processing\Rotate and resize\standard_test_images\livingroom.tif'
 
-    filtering_in_fourier(file1, standard_deviation=70)
+    filtering_in_fourier(file1, standard_deviation=40)
