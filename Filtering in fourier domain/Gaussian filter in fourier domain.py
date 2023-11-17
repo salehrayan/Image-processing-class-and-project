@@ -25,9 +25,8 @@ def filtering_in_fourier(file1_path, standard_deviation):
     x_temp = np.linspace(-height/2, height/2, height*2)
     y_temp = np.linspace(-width/2, width/2, width*2)
     Y, X = np.meshgrid(y_temp, x_temp)
-    filter_gaussian = (minmax(np.exp(-(X ** 2 + Y ** 2) / (2 * standard_deviation ** 2)) / (2 * np.pi *
-                                                                                            standard_deviation ** 2),
-                              Max=1))
+    filter_gaussian = np.exp(-(X ** 2 + Y ** 2) / (2 * standard_deviation ** 2))
+
 
     image_zero_padded_fft = np.fft.fft2(fftshift_in_time(image), s=(height * 2, width * 2))
     image_fft_filtered = image_zero_padded_fft * filter_gaussian

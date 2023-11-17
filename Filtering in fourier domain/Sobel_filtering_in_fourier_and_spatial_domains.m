@@ -2,7 +2,7 @@ clc;clear;close all;
 
 
 image = imread(['C:\Users\ASUS\Desktop\Image processing\' ...
-    'Rotate and resize\standard_test_images\cameraman.tif']);
+    'Rotate and resize\standard_test_images\house.tif']);
 image = image(:, : , 1);
 kernel = [-1 0 1
           -2 0 2
@@ -21,11 +21,11 @@ title('Kernel FFT Mesh plot')
 % freqz2(kernel, [h+3, w+3])
 
 subplot(2,3,2)
-imshow(abs(fftshift(kernel_fft)), [] , 'InitialMagnification', 'fit')
+imshow(abs(fftshift(kernel_fft)), [] )
 title('Kernel FFT')
 
 subplot(2,3,3)
-imshow(image, [] , 'InitialMagnification', 'fit')
+imshow(image, [] )
 title('Original image')
 
 subplot(2,3,4)
@@ -34,22 +34,21 @@ imshow(log(abs(fftshift(image_fft)) + 1), [] , ...
 title('FFT of image')
 
 subplot(2,3,5)
-imshow(real(ifft2(image_filtered_f)), [0 255], 'InitialMagnification', 'fit')
+imshow(real(ifft2(image_filtered_f)), [0 255])
 title('Image filtered in fourier domain')
 
 subplot(2,3,6)
-imshow(convolve2d(image, kernel), [0 255], 'InitialMagnification', 'fit')
+imshow(convolve2d_3by3(image, kernel), [0 255])
 title('image filtered in spatial domain')
 
 
 
-function temp = convolve2d(im, ker)
+function temp = convolve2d_3by3(im, ker)
     ker = -1 .* double(ker); 
-    [hei, wid] = size(im);
 
     im_padded = double(padarray(im, [2 2], 0, 'both'));
 
-    temp = zeros([hei+4 wid+4]);
+    temp = zeros(size(im_padded));
     size_temp = size(temp);
 
     for row=1:size_temp(1)-2
