@@ -11,7 +11,7 @@ def minmax(array):
     return (array - np.min(array)) / (np.max(array) - np.min(array)) * 255
 
 
-def halfpixel_shift_hor(file1_path):
+def halfpixel_shift(file1_path):
     image = cv2.imread(file1_path, cv2.IMREAD_GRAYSCALE)
     height, width = image.shape
     upscaled_image_n = np.zeros((height * 2, width * 2))
@@ -49,4 +49,4 @@ def halfpixel_shift_hor(file1_path):
 
 if __name__ == "__main__":
     file_path = r'C:\Users\ASUS\Desktop\Image processing\Rotate and resize\standard_test_images\lake.tif'
-    halfpixel_shift_hor(file_path)
+    halfpixel_shift(file_path)
