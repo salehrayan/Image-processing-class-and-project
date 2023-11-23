@@ -60,17 +60,18 @@ def show_upscaled_images(file_path: str, factor, a = -0.5):
     upscaled_image_bil = np.zeros((math.floor(height * factor), math.floor(width * factor)), dtype=np.uint8)
 
 
-    for i in tqdm(range(new_height)):
-        for j in range(new_width):
+    for i in tqdm(range(new_height-1)):
+        for j in range(new_width-1):
 
-            x = j / factor
-            y = i / factor
+            x = i / factor
+            y = j / factor
 
             xo = floor(x)
             yo = floor(y)
 
-            pixel_value = image[yo, xo]
-            upscaled_image_n[i : i+math.ceil(factor), j: j+math.ceil(factor)] = pixel_value
+            pixel_value = image[xo, yo]
+            upscaled_image_n[i:i+math.ceil(factor), j:j+math.ceil(factor)] = pixel_value
+
 
     for i in tqdm(range(new_height)):
         for j in range(new_width):
@@ -117,4 +118,4 @@ def show_upscaled_images(file_path: str, factor, a = -0.5):
 if __name__ == '__main__':
     file_path = 'standard_test_images/cameraman.tif'
 
-    show_upscaled_images(file_path, 1.5, a= -0.5)
+    show_upscaled_images(file_path, 2, a= -0.5)
