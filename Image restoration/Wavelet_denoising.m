@@ -93,7 +93,7 @@ title('Diagonal Detail Coef. of Level 3')
 
 fig3.Position = [573, 244, 860, 720];
 
-had = std.^2 .*sqrt(2.*log2(shape(1).*shape(2)))/110;
+had = std .*sqrt(2.*log2(shape(1).*shape(2))).*0.39;
 c_temp = c(1, (s(1,1)*s(1,2))+1:end);
 c_temp(abs(c_temp)<had) = 0;
 c(1, (s(1,1)*s(1,2))+1:end) = c_temp;
@@ -103,17 +103,17 @@ x = waverec2(c, s, 'db3');
 fig4 = figure;
 colormap gray
 fig4.Position = [0, 100, 600, 600];
-imagesc(I)
+imshow(I,[0 255])
 title("Original image")
 
 fig5 = figure;
 colormap gray
 fig5.Position = [550, 100, 600, 600];
-imagesc(Image)
+imshow(Image, [0 255])
 title("Degraded image")
 
 fig6 = figure;
 colormap gray
 fig6.Position = [1150, 100, 600, 600];
-imagesc(x)
+imshow(x, [0 255])
 title("Denoised Image")

@@ -32,7 +32,7 @@ def noise_remove(file_path, intensity_factor, std, blurring_kernel_dim, MF_dim ,
     kernel_average = np.ones((Mean_F_dim, Mean_F_dim))/ (Mean_F_dim**2)
 
     image_blur = signal.correlate2d(image, kernel_blur, boundary="symm")
-    noise = std* np.random.randn(image_blur.shape[0], image_blur.shape[1])
+    noise = std*np.random.randn(image_blur.shape[0], image_blur.shape[1])
     image_blur_noise = image_blur + noise
 
     snr = np.sum(image**2)/np.sum(np.abs(noise[blurring_kernel_dim-1:noise.shape[0]-(blurring_kernel_dim-2),
@@ -138,6 +138,6 @@ def noise_remove(file_path, intensity_factor, std, blurring_kernel_dim, MF_dim ,
 
 
 if __name__ == '__main__':
-    file_path = r'C:\Users\ASUS\Desktop\Image processing\Horizontal texture features\textures\1.4.08.tiff'
+    file_path = r'C:\Users\ASUS\Desktop\Image processing\Horizontal texture features\textures\1.4.02.tiff'
     noise_remove(file_path, intensity_factor=1, std=40, blurring_kernel_dim=4,
                  MF_dim=4, Mean_F_dim=4)
