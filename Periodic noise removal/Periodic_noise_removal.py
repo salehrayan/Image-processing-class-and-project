@@ -57,5 +57,4 @@ def halfpixel_shift_hor(file1_path):
 
 if __name__ == "__main__":
     file_path = r'aerialpompeiiperiodic.jpg'
-
     halfpixel_shift_hor(file_path)
