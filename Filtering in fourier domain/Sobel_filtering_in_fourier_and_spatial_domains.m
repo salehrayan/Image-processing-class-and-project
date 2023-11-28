@@ -9,9 +9,9 @@ kernel = [-1 0 1
           -1 0 1];
 [h, w] = size(image);
 
-image_fft = fft2(image, h+3, w+3);
-kernel_fft = fft2(kernel, h+3, w+3);
-image_filtered_f = image_fft .* kernel_fft;
+image_fft = fft2(image, h+2, w+2);
+kernel_fft = fft2(kernel, h+2, w+2);
+image_filtered_f = image_fft .* (kernel_fft);
 
 
 figure(WindowState="maximized")
@@ -43,8 +43,9 @@ title('image filtered in spatial domain')
 
 
 
+
 function temp = convolve2d_3by3(im, ker)
-    ker = -1 .* double(ker); 
+    ker = rot90(double(ker),2); 
 
     im_padded = double(padarray(im, [2 2], 0, 'both'));
 
