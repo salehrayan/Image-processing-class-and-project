@@ -8,16 +8,16 @@ imshow(image, [0 255])
 title('Original image')
 [h, w] = size(image);
 
-image_fft = fftshift(fft2(image, h, w));
+image_fft = fftshift(fft2(image, h+50, w+50));
 D0 = 40;
 n=2;
 
-x_temp = linspace(-h/2, h/2, h);
-y_temp = linspace(-w/2, w/2, w);
+x_temp = linspace(-h/2, h/2, h+50);
+y_temp = linspace(-w/2, w/2, w+50);
 
 [Y, X] = meshgrid(x_temp, y_temp);
 
-ideal_lowpass = zeros([h w]);
+ideal_lowpass = zeros([h+50 w+50]);
 ideal_lowpass(hypot(Y, X)<D0) = 1;
 butter_lowpass = 1./(1 + (hypot(Y, X)./D0).^(2*n));
 gaussain_lowpass = exp(-(hypot(Y, X)).^2/(2.*(D0.^2)));
