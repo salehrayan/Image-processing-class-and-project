@@ -7,7 +7,7 @@ def minmax(array):
     return (array - np.min(array)) / (np.max(array) - np.min(array)) * 255
 
 
-def periodic_noise_remove(file1_path):
+def periodic_noise_remove(file1_path, n, D0):
     image = cv2.imread(file1_path, cv2.IMREAD_GRAYSCALE)
     height, width = image.shape
     image_fft = np.fft.fft2(image)
@@ -16,8 +16,6 @@ def periodic_noise_remove(file1_path):
     y_temp = np.linspace(-width / 2, width / 2, width)
     Y, X = np.meshgrid(y_temp, x_temp)
 
-    n = 3
-    D0 = 15
     notchpair1_x = 238 - height / 2
     notchpair1_y = 798 - width / 2
     notchpair2_x = 303 - height / 2
@@ -68,4 +66,4 @@ def periodic_noise_remove(file1_path):
 
 if __name__ == "__main__":
     file_path = r'period_input.jpg'
-    periodic_noise_remove(file_path)
+    periodic_noise_remove(file_path, n=3, D0=15)
