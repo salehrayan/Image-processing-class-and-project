@@ -61,5 +61,5 @@ def Adaptive_median_filter(file1_path, P_SandP, Smax):
 
 
 if __name__ == "__main__":
-    file_path = r'C:\Users\ASUS\Desktop\Image processing\Rotate and resize\standard_test_images\lena_gray_512.tif'
+    file_path = r'C:\Users\ASUS\Desktop\Image processing\Rotate and resize\standard_test_images\cameraman.tif'
     Adaptive_median_filter(file_path, P_SandP=0.25, Smax=7)
