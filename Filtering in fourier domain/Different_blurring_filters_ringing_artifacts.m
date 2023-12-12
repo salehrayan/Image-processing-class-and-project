@@ -8,7 +8,7 @@ imshow(image, [0 255])
 title('Original image')
 [h, w] = size(image);
 
-image_fft = fftshift(fft2(image, h+50, w+50));
+image_fft = fftshift(fft2(image, h+50, w+50));   %50 for padding
 D0 = 40;
 n=2;
 

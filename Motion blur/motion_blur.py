@@ -16,8 +16,8 @@ def motion_blur(file1_path):
     image_fft = np.fft.fft2(image)
 
     T = 1  # exposure
-    a = 0.001  # vertical motion
-    b = 0.001  # horizontal motion
+    a = 0.1  # vertical motion
+    b = 0.1  # horizontal motion
 
     H = np.zeros((height + 1, width + 1), dtype=np.complex128)  # +1 to avoid zero division
     # Fill matrix H
@@ -43,5 +43,5 @@ def motion_blur(file1_path):
 
 
 if __name__ == "__main__":
-    file_path = r'C:\Users\ASUS\Desktop\Image processing\Rotate and resize\standard_test_images\cameraman.tif'
+    file_path = r'book.jpg'
     motion_blur(file_path)

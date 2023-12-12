@@ -53,6 +53,7 @@ def Adaptive_median_filter(file1_path, P_SandP, Smax):
     plt.imshow(image_padded[Smax // 2:height + Smax // 2, Smax // 2:width + Smax // 2], cmap="gray", vmin=0, vmax=255)
     plt.title(f'Adaptive median filtered image\n'
               f'SNR = {10 * np.log(np.sum(image ** 2) / np.sum((image - image_padded[Smax // 2:height + Smax // 2, Smax // 2:width + Smax // 2]) ** 2)):.2f}dB'
+              f', RMSE = {np.sqrt(np.mean((image - image_padded[Smax // 2:height + Smax // 2, Smax // 2:width + Smax // 2])**2)):.2f}'
               f'\n PSNR = {10 * np.log(np.max(image) ** 2 / np.mean((image - image_padded[Smax // 2:height + Smax // 2, Smax // 2:width + Smax // 2]) ** 2)):.2f}dB',
               fontname='Times New Roman', fontweight="bold")
 
