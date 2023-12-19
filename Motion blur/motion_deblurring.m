@@ -73,7 +73,7 @@ psnr1 = 10.*log(max(x1, [], 'all').^2./ (rmse1).^2);
 x2 = real(ifft2(ifftshift(degraded_im2_fft.*wiener_filter)));
 snr2 = 10.*log(sum(x2.^2, 'all')./sum((x2-double(image)).^2, 'all'));
 rmse2 = sqrt(mean((x2-double(image)).^2, 'all'));
-psnr2 = 10.*log(max(x, [], 'all').^2./ (rmse2).^2);
+psnr2 = 10.*log(max(x2, [], 'all').^2./ (rmse2).^2);
 
 x3 = real(ifft2(ifftshift(degraded_im3_fft.*wiener_filter)));
 snr3 = 10.*log(sum(x3.^2, 'all')./sum((x3-double(image)).^2, 'all'));
