@@ -22,6 +22,8 @@ imshow(radon_image, [])
 xlabel('ro')
 ylabel('theta')
 
+figure('Position',[0 200 600 600])
+imshow(image, [])
 figure
 for i=360:-1:1
     ro_s = radon_image(360-i+1, :);
