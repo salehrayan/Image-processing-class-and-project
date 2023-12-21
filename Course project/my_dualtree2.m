@@ -1,4 +1,4 @@
-function [A,D,Ascale] = my_dualtree2(x,varargin)
+function [A,D,LL,Ascale] = my_dualtree2(x,varargin)
 % Kingsbury Q-shift 2-D Dual-tree complex wavelet transform
 %   [A,D] = dualtree2(X) returns the 2-D dual-tree complex wavelet
 %   transform (DTCWT) of X using Kingsbury Q-shift filters. X is a
@@ -188,16 +188,16 @@ else
 end
 
 % HL subband
-HL = quad2Complex(ipermute(wavelet.internal.Batchcolfilter(Hi,LoD),permidx));
-HL = reshape(HL,[dfiltSZ(1:4) 2]);
+HL = quad2Complex(ipermute(imresize(wavelet.internal.Batchcolfilter(Hi,LoD), 2, "bicubic"),permidx));
+HL = reshape(HL,[dfiltSZ(1)*2 dfiltSZ(2)*2 1 1 2]);
 Dfilt{1}(:,:,:,:,[1 6]) = HL;
 % LH subband
-LH = quad2Complex(ipermute(wavelet.internal.Batchcolfilter(Lo,HiD),permidx));
-LH = reshape(LH,[dfiltSZ(1:4) 2]);
+LH = quad2Complex(ipermute(imresize(wavelet.internal.Batchcolfilter(Lo,HiD), 2,"bicubic"),permidx));
+LH = reshape(LH,[dfiltSZ(1)*2 dfiltSZ(2)*2 1 1 2]);
 Dfilt{1}(:,:,:,:,[3 4]) = LH;
 % HH subband
-HH = quad2Complex(ipermute(wavelet.internal.Batchcolfilter(Hi,HiD),permidx));
-HH = reshape(HH,[dfiltSZ(1:4) 2]);
+HH = quad2Complex(ipermute(imresize(wavelet.internal.Batchcolfilter(Hi,HiD), 2, "bicubic"),permidx));
+HH = reshape(HH,[dfiltSZ(1)*2 dfiltSZ(2)*2 1 1 2]);
 Dfilt{1}(:,:,:,:,[2 5]) = HH;
 
 
@@ -281,6 +281,7 @@ else
     D = Dperm;
 end
 A = LoLo;
+LL = quad2Complex(LoLo);
 
 %-------------------------------------------------------------------------
 function Z = quad2Complex(y)
