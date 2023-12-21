@@ -51,32 +51,39 @@ degraded_im3_fft = fftshift(fft2(degraded_im3));
 
 
 t1 = real(ifft2(ifftshift(degraded_im1_fft.*inverse_motion_tf.*butter_lowpass)));
-snrt1 = 10.*log(sum(t1.^2, 'all')./sum((t1-double(image)).^2, 'all'));
+t1 = (t1 - min(t1, [], 'all'))./(max(t1, [], 'all') - min(t1, [], 'all')).*255;
+snrt1 = 10.*log(sum(double(image).^2, 'all')./sum((t1-double(image)).^2, 'all'));
 rmset1 = sqrt(mean((t1-double(image)).^2, 'all'));
 psnrt1 = 10.*log(max(t1, [], 'all').^2./ (rmset1).^2);
 
 t2 = real(ifft2(ifftshift(degraded_im2_fft.*inverse_motion_tf.*butter_lowpass)));
-snrt2 = 10.*log(sum(t2.^2, 'all')./sum((t2-double(image)).^2, 'all'));
+t2 =  (t2 - min(t2, [], 'all'))./(max(t2, [], 'all') - min(t2, [], 'all')).*255;
+snrt2 = 10.*log(sum(double(image).^2, 'all')./sum((t2-double(image)).^2, 'all'));
 rmset2 = sqrt(mean((t2-double(image)).^2, 'all'));
 psnrt2 = 10.*log(max(t2, [], 'all').^2./ (rmset2).^2);
 
 t3 = real(ifft2(ifftshift(degraded_im3_fft.*inverse_motion_tf.*butter_lowpass)));
-snrt3 = 10.*log(sum(t3.^2, 'all')./sum((t3-double(image)).^2, 'all'));
+t3 = (t3 - min(t3, [], 'all'))./(max(t3, [], 'all') - min(t3, [], 'all')).*255;
+snrt3 = 10.*log(sum(double(image).^2, 'all')./sum((t3-double(image)).^2, 'all'));
 rmset3 = sqrt(mean((t3-double(image)).^2, 'all'));
 psnrt3 = 10.*log(max(t1, [], 'all').^2./ (rmset3).^2);
 
 x1 = real(ifft2(ifftshift(degraded_im1_fft.*wiener_filter)));
-snr1 = 10.*log(sum(x1.^2, 'all')./sum((x1-double(image)).^2, 'all'));
+x1 = (x1 - min(x1, [], 'all'))./(max(x1, [], 'all') - min(x1, [], 'all')).*255;
+snr1 = 10.*log(sum(double(image).^2, 'all')./sum((x1-double(image)).^2, 'all'));
+
 rmse1 = sqrt(mean((x1-double(image)).^2, 'all'));
 psnr1 = 10.*log(max(x1, [], 'all').^2./ (rmse1).^2);
 
 x2 = real(ifft2(ifftshift(degraded_im2_fft.*wiener_filter)));
-snr2 = 10.*log(sum(x2.^2, 'all')./sum((x2-double(image)).^2, 'all'));
+x2 = (x2 - min(x2, [], 'all'))./(max(x2, [], 'all') - min(x2, [], 'all')).*255;
+snr2 = 10.*log(sum(double(image).^2, 'all')./sum((x2-double(image)).^2, 'all'));
 rmse2 = sqrt(mean((x2-double(image)).^2, 'all'));
 psnr2 = 10.*log(max(x2, [], 'all').^2./ (rmse2).^2);
 
 x3 = real(ifft2(ifftshift(degraded_im3_fft.*wiener_filter)));
-snr3 = 10.*log(sum(x3.^2, 'all')./sum((x3-double(image)).^2, 'all'));
+x3 = (x3 - min(x3, [], 'all'))./(max(x3, [], 'all') - min(x3, [], 'all')).*255;
+snr3 = 10.*log(sum(double(image).^2, 'all')./sum((x3-double(image)).^2, 'all'));
 rmse3 = sqrt(mean((x3-double(image)).^2, 'all'));
 psnr3 = 10.*log(max(x3, [], 'all').^2./ (rmse3).^2);
 
