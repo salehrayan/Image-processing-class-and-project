@@ -108,7 +108,7 @@ validateattributes(L,{'numeric'},...
     {'integer','scalar','positive','nonempty'},'DDDTREE2','L');
 sizes = size(X);
 SL = sizes(1:2)/2^L;
-if any(isodd(sizes(1:2)))
+if any(isOdd(sizes(1:2)))
     error(message('Wavelet:FunctionArgVal:Invalid_SizVal','X'));
 elseif any(SL ~= fix(SL))
     % Both row and column dimensions have to be divisible by 2^L

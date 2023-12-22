@@ -21,8 +21,8 @@ if nargin < 4
 end
 
 % filter along rows
-lo = sfb2D_A(lo,    hi{1}, sf2, 2);
-hi = sfb2D_A(hi{2}, hi{3}, sf2, 2);
+lo = sfb2D_A(lo,    imresize(hi{1},4), sf2, 2);
+hi = sfb2D_A(imresize(hi{2}, 4), imresize(hi{3}, 4), sf2, 2);
 
 % filter along columns
 y = sfb2D_A(lo, hi, sf1, 1);

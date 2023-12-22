@@ -1,8 +1,8 @@
 clc; clear; close all;
 
-image_original = imread('WDC_ADS40_Color_6Inch_2-web.jpg');
+image_original = imread('ezgif.com-webp-to-jpg-converted.jpg');
 image_original = rgb2gray(image_original);
-image_original = imresize(image_original, [512 512]);
+% image_original = imresize(image_original, [512 512]);
 image_lower_res = single(imresize(image_original, 1./2, "bicubic"));
 alpha = 2; beta = 1;
 
@@ -10,7 +10,7 @@ alpha = 2; beta = 1;
 [n, m] = dualtree2(image_original, 'Level',1, 'LevelOneFilter','legall');
 
 
-imrec = my_idualtree2(a, d, imresize(image_lower_res, size(image_original),"bicubic"));
+imrec = my_idualtree2(a, d, imresize(image_lower_res, 1,"bicubic"));
 
 
 figure
@@ -21,11 +21,12 @@ figure
 imshow(image_original, [0 255])
 title('Original Image')
 
+im_bicub = imresize(image_lower_res, alpha, "bicubic");
 tiledlayout(1,2)
 
 % First plot
 ax1 = nexttile;
-imshow(imresize(image_lower_res, alpha, "bicubic"), [0 255])
+imshow(im_bicub, [0 255])
 title('Bicubic interpolation')
 
 % Second plot
@@ -35,9 +36,10 @@ title('CWT-super resolution')
 
 linkaxes([ax1 ax2],'xy')
 
-
-disp(psnr(imresize(image_lower_res, size(image_original), "bicubic"), single(image_original),255))
-disp(psnr(uint8(round(imrec)), image_original, 255))
+disp(psnr(im_bicub, single(image_original), 255))
+% MSE = mean((im_bicub - double(image_original)).^2, "all");
+% disp(10.*log10((255.^2)./MSE))
+disp(psnr(uint8(round(imrec(1:end, 1:end))), image_original, 255))
 
 function X = complex2Quad(Z,gain)
 

@@ -115,9 +115,9 @@ Lo= resized_image;
 kk = Nlev;
 while kk >= 2
     % Recover wavelet subbands
-    LH = complex2Quad(yhR{kk}(:,:,:,[1 6],:),dgain(kk,[1 6]));
-    HL = complex2Quad(yhR{kk}(:,:,:,[3 4],:),dgain(kk,[3 4]));
-    HH = complex2Quad(yhR{kk}(:,:,:,[2 5],:),dgain(kk,[2 5]));
+    LH = imresize(complex2Quad(yhR{kk}(:,:,:,[1 6],:),dgain(kk,[1 6])), 1);
+    HL = imresize(complex2Quad(yhR{kk}(:,:,:,[3 4],:),dgain(kk,[3 4])), 1);
+    HH =imresize( complex2Quad(yhR{kk}(:,:,:,[2 5],:),dgain(kk,[2 5])), 1);
     Lo = reshape(Lo,size(HH));
     if kk == Nlev
        Lo = Lo*lpgain;
@@ -158,9 +158,9 @@ end
 LH = imresize(complex2Quad(yhR{kk}(:,:,:,[1 6],:),params.detailgain(kk,[1 6])), 2, "bicubic");
 HL = imresize(complex2Quad(yhR{kk}(:,:,:,[3 4],:),params.detailgain(kk,[3 4])), 2, 'bicubic');
 HH = imresize(complex2Quad(yhR{kk}(:,:,:,[2 5],:),params.detailgain(kk,[2 5])), 2, "bicubic");
-Lo = reshape(Lo,size(LH));     
-Y1 = wavelet.internal.Batchcolfilter(Lo,LoR)+wavelet.internal.Batchcolfilter(LH,HiR);
-Y2 = wavelet.internal.Batchcolfilter(HL,LoR)+wavelet.internal.Batchcolfilter(HH,HiR);
+Lo = imresize(Lo,size(LH));     
+Y1 = imresize(wavelet.internal.Batchcolfilter(Lo,LoR)+wavelet.internal.Batchcolfilter(LH,HiR), 1);
+Y2 = imresize(wavelet.internal.Batchcolfilter(HL,LoR)+wavelet.internal.Batchcolfilter(HH,HiR), 1);
 Y1 = permute(Y1,permidx);
 Y2 = permute(Y2,permidx);
    

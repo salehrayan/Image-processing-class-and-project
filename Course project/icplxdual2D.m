@@ -1,4 +1,4 @@
-function y = icplxdual2D(w, J, Fsf, sf)
+function y = icplxdual2D(w, J, Fsf, sf, image)
 
 % Inverse Dual-Tree Complex 2D Discrete Wavelet Transform
 % 
@@ -23,10 +23,10 @@ for j = 1:J
     end
 end
 
-y = zeros(size(w{1}{1}{1}{1})*2);
+y = zeros(size(w{1}{1}{1}{1})*8);
 for m = 1:2
     for n = 1:2
-        lo = w{J+1}{m}{n};
+        lo = imresize(image, 2);
         for j = J:-1:2
             lo = sfb2D(lo, w{j}{m}{n}, sf{m}, sf{n});
         end
