@@ -32,7 +32,7 @@ figure('Position',[0 200 600 600])
 imshow(image, [])
 figure
 for i=360:-1:1
-    first_integrand = G.*abs(omega) .* Hann;
+    first_integrand = G.*abs(omega) ;
     second_integrand = real(ifft(ifftshift(first_integrand,2), size(radon_image,2), 2));
     slice = second_integrand(360-i+1, :);
     ro_s = repmat(slice, size(radon_image,2), 1);

@@ -27,5 +27,5 @@ figure()
 imshow(imresize(radon_image, 2), [])
 title('Manual Radon transform')
 figure
-imshow(imresize(radon(image, 0:0.5:179.5), 2), [])
+imshow(imrotate(imresize(radon(image, 0:0.5:179.5), 2), 90), [])
 title('Matlab Radon transform')
