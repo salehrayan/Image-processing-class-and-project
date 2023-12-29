@@ -25,8 +25,9 @@ def halfpixel_shift(file1_path):
             xo = floor(x)
             yo = floor(y)
 
-            pixel_value = image[xo, yo]
+            pixel_value = image[xo,   yo]
             upscaled_image_n[i:i + math.ceil(2), j:j + math.ceil(2)] = pixel_value
+
 
     for i in tqdm(range(height * 2)):
         half_pixeled[i, i % 2:width * 2 + (i % 2)] = upscaled_image_n[i]
