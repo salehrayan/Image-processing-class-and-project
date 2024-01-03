@@ -12,9 +12,6 @@ figure
 imshow(my_iswt2(A,H,V,D, 'haar'), [0 255])
 
 
-
-
-
 function t = min_max(x)
 
 t = (x - min(x,[], 'all'))./(max(x, [], "all") - min(x, [], 'all')).*255;

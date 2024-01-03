@@ -30,8 +30,8 @@ function imrec = my_iswt2(varargin)
 
 %#codegen
 zx = 1;
-my_sigma = [7 20 20 30]*1200;
-g = [1.2 2.5 2.5 1.5]*40000;
+% my_sigma = [7 20 20 30]*1200;
+% g = [1.2 2.5 2.5 1.5]*40000;
 a_gain = 1;
 % Check arguments.
 narginchk(2,8);
@@ -58,6 +58,9 @@ switch nbIn
     case 6 
         argstr = 0; 
         argnum = 5;
+    case 7 
+        argstr = 1;
+        argnum = 5;
 end
 
 coder.extrinsic('wavemngr','wfilters');
@@ -69,6 +72,8 @@ if argstr && ischar(temp_parseinputs{argnum})
         coder.internal.error('Wavelet:FunctionInput:OrthorBiorthWavelet');
     end
     [lo_R,hi_R] = coder.const(@wfilters,varargin{argnum},'r');
+    my_sigma = varargin{1,6};
+    g = varargin{1,7};
 else
     
     coder.internal.assert(~(nargin < argnum+1),...
