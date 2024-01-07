@@ -1,4 +1,4 @@
-function imrec = my_iswt2(varargin)
+function my_result = my_iswt2_second(varargin)
 %ISWT2 Inverse stationary wavelet transform 2-D.
 %   X = ISWT2(SWC,WNAME) synthesizes the matrix X from the stationary
 %   wavelet transform coefficients in SWC. ISWT2 uses the orthogonal or
@@ -33,6 +33,8 @@ zx = 1;
 % my_sigma = [7 20 20 30]*1200;
 % g = [1.2 2.5 2.5 1.5]*40000;
 a_gain = 1;
+global my_result;
+my_result = [0 0 0 0];
 % Check arguments.
 narginchk(2,8);
 
@@ -72,8 +74,8 @@ if argstr && ischar(temp_parseinputs{argnum})
         coder.internal.error('Wavelet:FunctionInput:OrthorBiorthWavelet');
     end
     [lo_R,hi_R] = coder.const(@wfilters,varargin{argnum},'r');
-    my_sigma = varargin{1,6};
-    g = varargin{1,7};
+%     my_sigma = varargin{1,6};
+%     g = varargin{1,7};
 else
     
     coder.internal.assert(~(nargin < argnum+1),...
@@ -211,7 +213,7 @@ end
 
 if ~a3d_Flag
     level = dim3;
-    a = reconsLOC(a.*a_gain,h,v,d,lo_R,hi_R,level,rx,cx, g, my_sigma);
+    a = reconsLOC(a,h,v,d,lo_R,hi_R,level,rx,cx);
 else
     level = dim4;
     tmp = cell(1,3);
@@ -221,6 +223,7 @@ else
     end
     a = cat(3,tmp{:});
 end
+my_result = my_result./[2 4 8 16];
 imrec = a;
 %---------------------------------------------------------------%
 
@@ -239,13 +242,13 @@ for k = level:-1:1
         sC   = iCol(1:2:lC);
         x1   = idwt2LOC(...
             ca(sR,sC),ch(sR,sC,k),cv(sR,sC,k),cd(sR,sC,k), ...
-            lo_R,hi_R,[lR lC],[0,0], k, g, my_sigma);
+            lo_R,hi_R,[lR lC],[0,0], k);
         
         sR   = iRow(2:2:lR);
         sC   = iCol(2:2:lC);
         x2   = idwt2LOC(...
             ca(sR,sC),ch(sR,sC,k),cv(sR,sC,k),cd(sR,sC,k), ...
-            lo_R,hi_R,[lR lC],[-1,-1], k,g ,my_sigma);
+            lo_R,hi_R,[lR lC],[-1,-1], k);
         ca(iRow,iCol) = 0.5*(x1+x2);
     end
 end
@@ -257,12 +260,12 @@ end
 
 function y = idwt2LOC(a,h,v,d,lo_R,hi_R,sy,shift, level,g , my_sigma)
 
-temp = g(level).*pdf('Normal',upconvLOC(h,hi_R,lo_R,sy)+upconvLOC(v,lo_R,hi_R,sy)+upconvLOC(d,hi_R,hi_R,sy), 0, my_sigma(level) );
+% temp = g(level).*pdf('Normal',upconvLOC(h,hi_R,lo_R,sy)+upconvLOC(v,lo_R,hi_R,sy)+upconvLOC(d,hi_R,hi_R,sy), 0, my_sigma(level) );
 % temp = 1;
 y = upconvLOC(a,lo_R,lo_R,sy)+ ... % Approximation.
-    temp.*upconvLOC(h,hi_R,lo_R,sy)+ ... % Horizontal Detail.
-    temp.*upconvLOC(v,lo_R,hi_R,sy)+ ... % Vertical Detail.
-    temp.*upconvLOC(d,hi_R,hi_R,sy) + upconvLOC(h,hi_R,lo_R,sy)+upconvLOC(v,lo_R,hi_R,sy)+upconvLOC(d,hi_R,hi_R,sy);     % Diagonal Detail.
+    upconvLOC(h,hi_R,lo_R,sy)+ upconvLOC(v,lo_R,hi_R,sy)+ upconvLOC(d,hi_R,hi_R,sy); 
+global my_result;
+my_result(level) = my_result(level)+ prctile(abs(upconvLOC(h,hi_R,lo_R,sy))+abs(upconvLOC(v,lo_R,hi_R,sy))+abs(upconvLOC(d,hi_R,hi_R,sy)), 100, "all");
 
 if shift(1)==-1 , y = y([end,1:end-1],:); end
 if shift(2)==-1 , y = y(:,[end,1:end-1]); end

@@ -1,40 +1,35 @@
-clc; clear; close all;
-image = imread( ...
-    ['C:\Users\ASUS\Desktop\Image processing\Course project\' ...
-    'Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image2.bmp']);
-image = rgb2gray(image(1:end-4, 1:end-12, :));
-image = wdenoise2(image, 'DenoisingMethod', 'SURE');
-% [counts1,binLocations1] = imhist(uint8(image));
+clear; close all;
 
-% cumulative_sum_image = cumsum(counts1)./max(cumsum(counts1));
-
-% figure
-% stem(0:255, cumulative_sum_image)
-% quartiles = find((abs(cumulative_sum_image-0.75) <1e-3)+ (abs(cumulative_sum_image-0.25) <1e-3));
-% (quartiles(2) - quartiles(1))./255
-HS(image)
-
-
-image = imread( ...
-    ['C:\Users\ASUS\Desktop\Image processing\Course project\' ...
-    'Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image2_enhanced1.bmp']);
-image = rgb2gray(image(1:end-4, 1:end-12, :));
-
-image = wdenoise2(image, 'DenoisingMethod', 'SURE');
-
-figure
-imhist(uint8(image))
-HS(image)
-
-
-
-function result = HS(image)
-    [counts,~] = imhist(uint8(image));
-    cumulative_sum_image = cumsum(counts)./max(cumsum(counts));
-    quartiles = find((abs(cumulative_sum_image-0.75) <0.05)+ (abs(cumulative_sum_image-0.25) <0.05));
-    result = (quartiles(end) - quartiles(1))./255;
+lb = [0.1];
+ub = [10];
+options = optimoptions('patternsearch', 'Display','iter');
+% x = patternsearch(@fun, lb', [], [], [], [], lb, ub, options);
+for parameter = 0.5:0.5:12
+    fun(parameter)
+  
 end
+    
+    
+function result = fun(parameter)
 
+    image = imread('C:\Users\ASUS\Desktop\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\sat_map3.jpg');
+    image = rgb2gray(image(1:end-3, 1:end-8, :));
+%     image = image./(max(image, [], 'all'));
+    image = wdenoise2(image, 'DenoisingMethod', 'SURE');
+
+    [A,H,V,D] = swt2(image,4,'haar');
+    cutoff = my_iswt2_second(A,H,V,D, 'haar');
+    my_sigma = cutoff./3;
+    g = [1 1 1 1].*[parameter parameter+1 parameter+0.5 parameter].* my_sigma .*2.5;
+    
+    enhanced = my_iswt2(A,H,V,D, 'haar', my_sigma, g);
+%     result = -1.*entropy(uint8(enhanced))-1.*MCMA(image, enhanced) - ssim(uint8(enhanced),uint8(image));
+    result = -1.*entropy(uint8(enhanced))- ssim(uint8(enhanced),uint8(image));
+    disp(['entropy: ' num2str(entropy(uint8(enhanced))) ', SSMI: ' num2str(ssim(uint8(enhanced),uint8(image)))])
+    imshow(uint8(enhanced), [0 255])
+    title(['Parameter = ' num2str(parameter)])
+    waitforbuttonpress;
+end
 
 
 

@@ -1,13 +1,13 @@
 clc;clear; close all;
 
-lb = [100 100 100 100 0.1 1 1 1]';
+lb = [100 100 100 100 0.1 0.1 0.1 0.1]';
 ub = [300 400 500 600 2 7 7 7]';
 rng default
 % options = optimoptions('patternsearch', 'Display','iter');
 % options = optimoptions('ga', 'Display','iter', 'MaxGenerations',2);
-options = optimoptions('particleswarm', 'Display','iter', 'MaxIterations',10, SwarmSize=20);
+options = optimoptions('particleswarm', 'Display','iter', 'MaxIterations',20, SwarmSize=20);
 x = particleswarm(@fun,8, lb, ub,options);
-% x = patternsearch(@fun, lb', [], [], [], [], lb, ub,options);
+% x = patternsearch(@fun, lb', [], [], [], [], lb, ub, options);
 % x = ga(@fun, 8, [], [], [], [], lb, ub,[], options);
 % z = MCMA(image, adapthisteq(image));
 % x_res1 = [1.0000   18.8615   39.8820   26.5488    0.5699    0.0100    4.7782    2.2178];
@@ -41,13 +41,13 @@ x_res24 = [223.5482  200.0000  397.9944  600.0000    1.5000    5.0000    5.0000 
 % sigmas_test = cutoff./3;
 % gains = [1.1 2 3 4] .* sigmas_test .*2.5;
 % x_test2 = [cutoff [1.1 2 3 4]];
-% fun([239.4350  400.0000  476.0142  599.9936    0.8971    1.0000    1.2726    1.0000])
+% fun([100.4884  227.3461  102.0887  182.1730    2.0000    6.7249    7.0000    7.0000])
 
 
 function result = fun(x)
 
-    image = imread('C:\Users\ASUS\Desktop\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image2.bmp');
-    image = rgb2gray(image(1:end-4, 1:end-5, :));
+    image = imread('C:\Users\ASUS\Desktop\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image1.bmp');
+    image = rgb2gray(image(1:end, 1:end-2, :));
 %     image = image./(max(image, [], 'all'));
     image = wdenoise2(image, 'DenoisingMethod', 'SURE');
     cutoff = x(1:4);
@@ -56,7 +56,7 @@ function result = fun(x)
 
     [A,H,V,D] = swt2(image,4,'haar');
     enhanced = my_iswt2(A,H,V,D, 'haar', my_sigma, g);
-    result = -1.*MCMA(image, enhanced) ;
+    result = -1.*MCMA(image, enhanced);
 %     result =  -1.*HS(enhanced);
     
 end
