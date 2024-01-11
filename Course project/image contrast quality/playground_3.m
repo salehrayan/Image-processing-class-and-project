@@ -4,7 +4,7 @@ lb = [0.1];
 ub = [10];
 options = optimoptions('patternsearch', 'Display','iter');
 % x = patternsearch(@fun, lb', [], [], [], [], lb, ub, options);
-for parameter = 0.5:0.5:12
+for parameter = 0.5:0.5:10
     fun(parameter)
   
 end
@@ -12,8 +12,8 @@ end
     
 function result = fun(parameter)
 
-    image = imread('C:\Users\ASUS\Desktop\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\sat_map3.jpg');
-    image = rgb2gray(image(1:end-3, 1:end-8, :));
+    image = imread('C:\Users\ASUS\Desktop\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image1.bmp');
+    image = rgb2gray(image(1:end, 1:end-2, :));
 %     image = image./(max(image, [], 'all'));
     image = wdenoise2(image, 'DenoisingMethod', 'SURE');
 
