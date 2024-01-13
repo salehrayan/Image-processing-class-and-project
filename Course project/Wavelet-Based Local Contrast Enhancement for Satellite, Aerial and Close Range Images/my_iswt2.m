@@ -257,7 +257,7 @@ end
 
 function y = idwt2LOC(a,h,v,d,lo_R,hi_R,sy,shift, level,g , my_sigma)
 
-temp = g(level).*pdf('Normal',upconvLOC(h,hi_R,lo_R,sy)+upconvLOC(v,lo_R,hi_R,sy)+upconvLOC(d,hi_R,hi_R,sy), 0, my_sigma(level) );
+temp = g(level).*pdf('Normal',abs(upconvLOC(h,hi_R,lo_R,sy))+abs(upconvLOC(v,lo_R,hi_R,sy))+abs(upconvLOC(d,hi_R,hi_R,sy)), 0, my_sigma(level) );
 % temp = 1;
 y = upconvLOC(a,lo_R,lo_R,sy)+ ... % Approximation.
     temp.*upconvLOC(h,hi_R,lo_R,sy)+ ... % Horizontal Detail.
