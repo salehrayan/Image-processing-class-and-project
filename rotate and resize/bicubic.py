@@ -85,6 +85,9 @@ def bicubic(img, ratio, a):
     sys.stderr.flush()
     return dst
 
+
+
+
 # Read image
 # img = cv2.imread('butterfly.png')
 #
