@@ -10,7 +10,7 @@ end
     
 function result = fun(parameter)
 
-    image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\sat_map3.jpg');
+    image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image2.bmp');
     [h, w, ~] = size(image);
     image = rgb2gray(image(1:h-mod(h,16), 1:w-mod(w,16), :));
 %     image = image./(max(image, [], 'all'));
@@ -29,6 +29,11 @@ function result = fun(parameter)
     title(['Parameter = ' num2str(parameter)])
     waitforbuttonpress;
 end
+
+
+
+
+function 
 
 
 
