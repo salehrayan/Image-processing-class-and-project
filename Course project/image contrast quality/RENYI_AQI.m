@@ -1,4 +1,4 @@
-function [Q,Qn,Rm]=aqindex(X,N,nod,firstangle,angleunits,mode,average)
+function [Q,Qn,Rm]=RENYI_AQI(X,N,nod,firstangle,angleunits,mode,average)
 % [Q,Qn,Rm]=aqindex(X,N,nod,firstangle,angleunits,mode)
 % Blind Anistropic Quality Index (AQI). 
 % Details can be found in: S. Gabarda and G. Cristóbal, “Blind Image 

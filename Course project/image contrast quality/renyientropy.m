@@ -34,35 +34,20 @@ if alpha==1
     Q=-sum(Pp,2);
 else
     % Rényi entropy
-%     P=P.^alpha;
-%     Q=(1/(1-alpha))*log2(sum(P,2)+eps);
-    Q = WECE(P, 2, 4);
-    R = reshape(Q,ro,co);
+    P=P.^alpha;
+    Q=(1/(1-alpha))*log2(sum(P,2)+eps);
+%     Q = WECE(P, 2, 4);
+%     R = reshape(Q,ro,co);
 end
 
 % round-off error correction
-% I=find(Q<0); 
-% Q(I)=0;
-% II=find(Q>log2(N));
-% Q(II)=0;
-% U=reshape(Q,ro,co);
-% R=U./log2(N);
+I=find(Q<0); 
+Q(I)=0;
+II=find(Q>log2(N));
+Q(II)=0;
+U=reshape(Q,ro,co);
+R=U./log2(N);
 end
  
 
-function result = WECE(vorudi, k, n)
-    
-   result = 0;
-   input_sorted = sort(vorudi, 2);
-
-   for i = 1:7
-       for j = 0:n
-           term = ((-1).^j) .* nchoosek(n, j) .*((input_sorted(:, i+1).^2 - input_sorted(:, i).^2)./2) .*...
-                 (i./8).^(k) .*(log2(i).^(j)).*(log2(8).^(n-j));
-            result = term + result;
-       end
-   end
-   result = (k.^(n+1))./factorial(n) .* result;
-
-end
 

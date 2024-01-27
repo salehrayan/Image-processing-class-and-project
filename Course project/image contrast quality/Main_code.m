@@ -1,19 +1,22 @@
 clear; clc; close all;
 
-
+image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image2.bmp');
+image = rgb2gray(image);
+[h, w, ~] = size(image);
+image = imresize(image, [min([h w]) min([h w])], "bicubic");
 figure
-for parameter = 0:0.5:10
-    fun(parameter)
+for parameter = 2.5
+    
+    fun(parameter, image)
   
 end
     
     
-function result = fun(parameter)
-
-    image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image1.bmp');
+function result = fun(parameter, image)
+    
     [h, w, ~] = size(image);
-    image_original = rgb2gray(image(1:h-mod(h,16), 1:w-mod(w,16), :));
-%     image_original = image(1:h-mod(h,16), 1:w-mod(w,16), :);
+    image_original = image(1:h-mod(h,16), 1:w-mod(w,16), :);
+
     image = wdenoise2(image_original, 'DenoisingMethod', 'SURE');
     image(image<0) = 0; image(image>255) = 255;
 
@@ -24,13 +27,18 @@ function result = fun(parameter)
     
     enhanced = my_iswt2(A,H,V,D, 'haar', my_sigma, g);
     enhanced(enhanced<0) = 0; enhanced(enhanced>255) = 255;
-    [a, b, c] = aqindex(enhanced,8,6,0,'degree','gray','common')
+    [renyi_aiq_original, ~, ~] = RENYI_AQI(image,8,6,0,'degree','gray','common');
+    [renyi_aiq_enhanced, ~, ~] = RENYI_AQI(enhanced,8,6,0,'degree','gray','common');
+%     [wece_aiq_original, ~, ~] = WECE_AQI(double,8,6,0,'degree','gray','common');
+%     [wece_aiq_enhanced, ~, ~] = WECE_AQI(enhanced,8,6,0,'degree','gray','common');
+    
+    disp(['Parameter = ' num2str(parameter)])
+    disp(['entropy: ' num2str(entropy(uint8(enhanced))) ', SSIM: ' num2str(ssim(uint8(enhanced),uint8(image)))])
+    disp(['AMBE: ' num2str(AMBE(image_original, enhanced)) ', EMEE: ' num2str(emee(enhanced, 8, 1))])
+    fprintf('Rényi-AIQ original: %.10f, Rényi-AIQ enhanced: %0.10f\n', renyi_aiq_original, renyi_aiq_enhanced);
+%     disp(['WECE-AIQ original: ' num2str(wece_aiq_original) ', WECE-AIQ enhanced: ' num2str(wece_aiq_enhanced)])
+    disp(' ')
 
-%     result = -1.*entropy(uint8(enhanced))- ssim(uint8(enhanced),uint8(image));
-    disp(['entropy: ' num2str(entropy(uint8(enhanced))) ', SSMI: ' num2str(ssim(uint8(enhanced),uint8(image)))])
-%     disp(['WECE_AIQ_original: ' num2str(WECE(image, 2, 4))...
-%         ', WECE_AIQ_enhanced: ' num2str(WECE(enhanced, 2, 4)) ...
-%         ', Re´nyi-AIQ: ' 'sda'])
     imshow(uint8(enhanced), [0 255])
     title(['Parameter = ' num2str(parameter)])
     waitforbuttonpress;
@@ -38,23 +46,6 @@ end
 
 
 
-
-function result = WECE(image, k, n)
-    
-   result = 0;
-   image_sorted = sort(image(:));
-   m = size(image_sorted, 1);
-
-   for i = 1:m-1
-       for j = 0:n
-           term = ((-1).^j) .* nchoosek(n, j) .*((image_sorted(i+1).^2 - image_sorted(i).^2)./2) .*...
-                 (i./m).^(k) .*(log2(i).^(j)).*(log2(m).^(n-j));
-            result = term + result;
-       end
-   end
-   result = (k.^(n+1))./factorial(n) .* result;
-
-end
 
 
 
