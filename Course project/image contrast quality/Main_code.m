@@ -1,11 +1,11 @@
 clear; clc; close all;
 
-image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image2.bmp');
+image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image1.bmp');
 image = rgb2gray(image);
 [h, w, ~] = size(image);
 image = imresize(image, [min([h w]) min([h w])], "bicubic");
 figure
-for parameter = 2.5
+for parameter = 3
     
     fun(parameter, image)
   
@@ -31,12 +31,15 @@ function result = fun(parameter, image)
     [renyi_aiq_enhanced, ~, ~] = RENYI_AQI(enhanced,8,6,0,'degree','gray','common');
 %     [wece_aiq_original, ~, ~] = WECE_AQI(double,8,6,0,'degree','gray','common');
 %     [wece_aiq_enhanced, ~, ~] = WECE_AQI(enhanced,8,6,0,'degree','gray','common');
+    [Gmag, ~] = imgradient(enhanced, 'intermediate');
     
     disp(['Parameter = ' num2str(parameter)])
     disp(['entropy: ' num2str(entropy(uint8(enhanced))) ', SSIM: ' num2str(ssim(uint8(enhanced),uint8(image)))])
-    disp(['AMBE: ' num2str(AMBE(image_original, enhanced)) ', EMEE: ' num2str(emee(enhanced, 8, 1))])
+    disp(['AMBE: ' num2str(AMBE(image, enhanced)) ', EMEE: ' num2str(emee(enhanced, 16, 1)) ', EME: ' num2str(eme(enhanced,23,16))])
+    disp(['AME: ' num2str(ame(enhanced, 16)) ', AMEE: ' num2str(amee(enhanced, 16,1)) ', MCMA: ' num2str(MCMA(image, enhanced))])
+    disp(['Edge content: ' num2str(mean(Gmag,"all")) ', HS: ' num2str(HS(enhanced))])    
     fprintf('Rényi-AIQ original: %.10f, Rényi-AIQ enhanced: %0.10f\n', renyi_aiq_original, renyi_aiq_enhanced);
-%     disp(['WECE-AIQ original: ' num2str(wece_aiq_original) ', WECE-AIQ enhanced: ' num2str(wece_aiq_enhanced)])
+    %     disp(['WECE-AIQ original: ' num2str(wece_aiq_original) ', WECE-AIQ enhanced: ' num2str(wece_aiq_enhanced)])
     disp(' ')
 
     imshow(uint8(enhanced), [0 255])
@@ -44,7 +47,12 @@ function result = fun(parameter, image)
     waitforbuttonpress;
 end
 
-
+function result = HS(im)
+    [counts,~] = imhist(uint8(im));
+    cumulative_sum_image = cumsum(counts)./max(cumsum(counts));
+    quartiles = find((abs(cumulative_sum_image-0.75) <0.05)+ (abs(cumulative_sum_image-0.25) <0.05));
+    result = (quartiles(end) - quartiles(1))./255;
+end
 
 
 

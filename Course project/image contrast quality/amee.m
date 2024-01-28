@@ -1,8 +1,7 @@
-% Call: emee(A,M,L,alpha)
-% The 1st measure, EMEE, measure of enhancement by entropy calculation
+
 % of the image X of size MxM by using blocks of size LxL
-%
-function E=emee(X,L,alpha)
+
+function E=amee(X,L,alpha)
     [M,~]=size(X);
 
 	how_many=floor(M/L);
@@ -18,7 +17,7 @@ function E=emee(X,L,alpha)
             b_max=max(max(B1));
 
             if b_min>0 
-                b_ratio=b_max/(b_min+0.01);
+                b_ratio=(b_max-b_min)/(b_max+b_min);
                 E=E+alpha*(b_ratio^alpha).*log(b_ratio);	  
             end
 
@@ -26,4 +25,4 @@ function E=emee(X,L,alpha)
         end
 	    m1=m1+L;
     end
-	E=(E/how_many)/how_many;
+	E=-1.*(E/how_many)/how_many;

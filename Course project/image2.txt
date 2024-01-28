@@ -1,0 +1,27 @@
+UWLCE
+Parameter = 2.5
+entropy: 7.357, SSIM: 0.6305
+AMBE: 0.33105, EMEE: 109.6062, EME: 19.3763
+AME: 7.793, AMEE: 0.15519, MCMA: 0.77527
+Edge content: 13.7633, HS: 0.50196
+Rényi-AIQ original: 0.0025399034, Rényi-AIQ enhanced: 0.0196694868
+
+
+#####sharpen
+entropy: 7.1869, SSIM: 0.76063
+AMBE: 0.01737, EMEE: 13.9225
+Rényi-AIQ original: 0.0025497386, Rényi-AIQ enhanced: 0.0122068368
+
+entropy: 7.3036, SSIM: 0.61721
+AMBE: 0.027791, EMEE: 72.3485, EME: 19.5009
+AME: 7.6488, AMEE: 0.15755, MCMA: 0.79988
+Edge content: 18.9082, HS: 0.47451
+Rényi-AIQ original: 0.0025497386, Rényi-AIQ enhanced: 0.0170178077
+
+
+####Multi-scale Retinex
+entropy: 7.0594, SSIM: 0.74631
+AMBE: 6.6526, EMEE: 17.0428, EME: 18.3305
+AME: 18.1529, AMEE: 0.18084, MCMA: 0.65729
+Edge content: 8.5142, HS: 0.41176
+Rényi-AIQ original: 0.0025497386, Rényi-AIQ enhanced: 0.0076093901

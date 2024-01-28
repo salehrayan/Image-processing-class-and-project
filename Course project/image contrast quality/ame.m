@@ -1,8 +1,7 @@
-% Call: eme(A,M,L)
-% The 1st measure, EME, of enhancement calculation
+
 % of the image X of size MxM by using blocks of size LxL
-%
-function E=eme(X,M,L);
+
+function E=ame(X,L)
 
 %	L=5; 
     sz = size(X);
@@ -21,7 +20,7 @@ function E=eme(X,M,L);
             b_max=max(max(B1));
 
             if b_min>0 
-                b_ratio=b_max/(b_min+0.01);
+                b_ratio=(b_max-b_min)/(b_max+b_min);
                 E=E+20.*log(b_ratio);	  
             end;
 
@@ -29,4 +28,4 @@ function E=eme(X,M,L);
 	    end;
 	    m1=m1+L;
 	end;
-	E=(E/how_many_m)/how_many_n;
+	E=-1.*(E/how_many_m)/how_many_n;
