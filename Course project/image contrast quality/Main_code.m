@@ -1,11 +1,11 @@
 clear; clc; close all;
 
-image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image3.bmp');
-image = rgb2gray(image);
+image = imread('E:\Image processing\Course project\Mammogram images\mdb006.pgm');
+% image = rgb2gray(image);
 [h, w, ~] = size(image);
 image = imresize(image, [min([h w]) min([h w])], "bicubic");
 figure
-for parameter = 3
+for parameter = 0:0.5:8
     
     fun(parameter, image)
   
