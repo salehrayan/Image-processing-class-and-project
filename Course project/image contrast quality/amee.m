@@ -18,7 +18,7 @@ function E=amee(X,L,alpha)
 
             if b_min>0 
                 b_ratio=(b_max-b_min)/(b_max+b_min);
-                E=E+alpha*(b_ratio^alpha).*log(b_ratio);	  
+                E=E+alpha*(b_ratio^alpha).*log(b_ratio+0.01);	  
             end
 
             n1=n1+L;	              

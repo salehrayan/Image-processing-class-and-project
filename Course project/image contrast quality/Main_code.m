@@ -1,6 +1,6 @@
 clear; clc; close all;
 
-image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image1.bmp');
+image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image3.bmp');
 image = rgb2gray(image);
 [h, w, ~] = size(image);
 image = imresize(image, [min([h w]) min([h w])], "bicubic");

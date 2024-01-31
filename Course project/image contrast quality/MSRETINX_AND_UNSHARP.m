@@ -1,14 +1,16 @@
 clear; clc; close all;
 
-image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image1.bmp');
+image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image3.bmp');
 image = rgb2gray(image);
+% image = wdenoise2(image, 'DenoisingMethod', 'SURE');
 [h, w, ~] = size(image);
 image = imresize(image, [min([h w]) min([h w])], "bicubic");
 
-% retin = MSRetinex2(double(image), [15 80 250].*0.1, [1 1], 8);
-% retin = min_max(retin)-25;
+retin = MSRetinex2(double(image), [15 80 250].*1, [1 1], 8);
+retin = min_max(retin)+20;
+retin(retin<0) =0; retin(retin>255) = 255;
 
-retin = imsharpen(double(image), 'Amount', 3, 'Radius', 3);
+% retin = imsharpen(double(image), 'Amount', 2, 'Radius', 2);
 
 figure
 imshow(retin, [0 255])
