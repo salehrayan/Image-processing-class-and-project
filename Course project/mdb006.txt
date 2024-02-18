@@ -14,4 +14,3 @@ Edge content: 6.91, HS: 0.027451
 Rényi-AIQ original: 0.0023078681, Rényi-AIQ enhanced: 0.0052062990
 
 
-####Multi-scale Retinex
