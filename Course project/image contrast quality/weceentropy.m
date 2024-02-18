@@ -56,7 +56,7 @@ function result = WECE(vorudi, k, n)
    for i = 1:7
        for j = 0:n
            term = ((-1).^j) .* nchoosek(n, j) .*((input_sorted(:, i+1).^2 - input_sorted(:, i).^2)./2) .*...
-                 (i./8).^(k) .*(log2(i).^(j)).*(log2(8).^(n-j));
+                 (i./8).^(k) .*(log(i).^(j)).*(log(8).^(n-j));
             result = term + result;
        end
    end

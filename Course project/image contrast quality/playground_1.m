@@ -1,29 +1,34 @@
 clear; clc; close all;
+format long
 
-image = imread('E:\Image processing\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\horse.NOZ.bmp');
+image = imread('E:\github\Image processing class and project\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\baby.FLT.bmp');
 % image = rgb2gray(image);
 [h, w, ~] = size(image);
-image = double(imresize(image, [min([h w]) min([h w])], "bicubic"));
+% image = double(imresize(image, [min([h w]) min([h w])], "bicubic"));
 
-NoDs = 6;
+[Q, Qn, Rm] = WECE_AQI(image, 8, 6, 0, 'degree', 'gray', 'common');
 
-for i = 1:NoDs
-    angle = 180./NoDs.*(i-1);
-    b = symmetric_pixelwise_sequence(image./255, 8, angle, 'degree');
-    global_entropy(i) = mean(WECE(b, 2, 4), "all");
-end
+fprintf('%.10f\n', Q)
+fprintf('%.10f\n', Qn)
+fprintf('%.10f\n', Rm)
 
-std(global_entropy)
+
+result = WECE([1 1 2 3], 2, 4);
+
+
+
+
 
 function result = WECE(vorudi, k, n)
     
    result = 0;
-   input_sorted = sort(vorudi, 2);
+   input_sorted = sort(vorudi(:));
+   l = size(input_sorted,1);
 
-   for i = 1:7
+   for i = 1:(l -1)
        for j = 0:n
-           term = ((-1).^j) .* nchoosek(n, j) .*((input_sorted(:, i+1).^2 - input_sorted(:, i).^2)./2) .*...
-                 (i./8).^(k) .*(log2(i).^(j)).*(log2(8).^(n-j));
+           term = ((-1).^j) .* nchoosek(n, j) .*((input_sorted( i+1).^2 - input_sorted( i).^2)./2) .*...
+                 (i./l).^(k) .*(log10(i).^(j)).*(log10(l).^(n-j));
             result = term + result;
        end
    end

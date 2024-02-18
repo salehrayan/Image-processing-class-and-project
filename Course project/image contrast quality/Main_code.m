@@ -1,6 +1,6 @@
 clear; clc; close all;
 
-image = imread('E:\Image processing\Course project\Mammogram images\mdb006.pgm');
+image = imread('E:\github\Image processing class and project\Course project\Mammogram images\mdb006.pgm');
 % image = rgb2gray(image);
 [h, w, ~] = size(image);
 image = imresize(image, [min([h w]) min([h w])], "bicubic");

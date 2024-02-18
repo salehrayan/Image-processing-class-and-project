@@ -60,8 +60,8 @@ for k=1:nod
     
     for q=1:la
         Y=orlaon(X(:,:,q),N/2);
-        R=localwigner_wece(Y,N,firstangle+ang,'degree');
-%         R=weceentropy(W);
+        R=localwigner(Y,N,firstangle+ang,'degree');
+        R=weceentropy(R);
         R=orlaoff(R,N/2);
         
         % image entropy
