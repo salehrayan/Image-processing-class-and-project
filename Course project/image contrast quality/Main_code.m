@@ -1,7 +1,7 @@
 clear; clc; close all;
 
-image = imread('E:\github\Image processing class and project\Course project\Mammogram images\mdb006.pgm');
-% image = rgb2gray(image);
+image = imread('E:\github\Image processing class and project\Course project\Wavelet-Based Local Contrast Enhancement for Satellite, Aerial and Close Range Images\image2.bmp');
+image = rgb2gray(image);
 [h, w, ~] = size(image);
 image = imresize(image, [min([h w]) min([h w])], "bicubic");
 figure

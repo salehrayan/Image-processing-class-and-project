@@ -10,7 +10,7 @@ image = imresize(image, [min([h w]) min([h w])], "bicubic");
 % retin = min_max(retin)-40;
 % retin(retin<0) =0; retin(retin>255) = 255;
 
-retin = imsharpen(double(image), 'Amount', 3, 'Radius', 3);
+retin = imsharpen(double(image), 'Amount', 5, 'Radius', 3);
 
 figure
 imshow(retin, [0 255])
