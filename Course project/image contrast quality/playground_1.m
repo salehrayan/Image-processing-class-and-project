@@ -13,8 +13,7 @@ fprintf('%.10f\n', Qn)
 fprintf('%.10f\n', Rm)
 
 
-result = WECE([1 1 2 3], 2, 4);
-
+% result = WECE([1 1 2 3], 2, 4);
 
 
 
