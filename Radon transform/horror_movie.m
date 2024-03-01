@@ -6,7 +6,6 @@ image = imresize(image(:, :, 1), [512, 512]);
 % image = padarray(image_real, [0 0], 0, 'both');
 [height, width] = size(image);
 
-
 y_theta = 0:0.5:179.5;
 
 radon_image = radon(image, y_theta);
