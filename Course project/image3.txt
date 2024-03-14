@@ -1,4 +1,3 @@
-
 #####UWLCE
 Parameter = 3
 entropy: 7.6184, SSIM: 0.59405
