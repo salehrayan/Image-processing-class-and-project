@@ -38,9 +38,11 @@ for i=360:-1:1
     ro_s = repmat(slice, size(radon_image,2), 1);
     recovered_image = recovered_image+ imrotate(ro_s, y_theta(i), "bilinear", 'crop');
     imshow(recovered_image, [])
-    drawnow    
-    exportgraphics(gca,"inverse_radon.gif","Append",true, 'Resolution', 60, 'Colorspace', 'gray')
-    % pause(0.00005)
+    drawnow
+    frame = getframe(gca);
+    fram
+    % exportgraphics(gca,"inverse_radon.gif","Append",true, 'Resolution', 90, 'Colorspace', 'gray')
+    pause(0.00005)
 end
 
 
